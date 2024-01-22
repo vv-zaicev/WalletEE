@@ -1,0 +1,304 @@
+<
+style
+>
+@import
+	url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,700&display=swap')
+	;
+
+</
+style>* {
+	padding: 0;
+	margin: 0;
+	border: 0;
+	margin-block-start: 0;
+	margin-block-end: 0;
+}
+
+*, *:before, *:after {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+:focus, :active {
+	outline: none;
+}
+
+a:focus, a:active {
+	outline: none;
+}
+
+nav, footer, header, aside {
+	display: block;
+}
+
+html, body {
+	height: 100%;
+	width: 100%;
+	font-style: 100%;
+	line-height: 1;
+	-ms-text-size-adjust: 100%;
+	-moz-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+}
+
+input, button, textarea {
+	font-family: inherit;
+}
+
+input::-ms-clear {
+	display: none;
+}
+
+button {
+	cursor: pointer;
+}
+
+button::-moz-focus-inner {
+	padding: 0;
+	border: 0;
+}
+
+a, a:visited {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+ul li {
+	list-style-type: none;
+}
+
+img {
+	vertical-align: top;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-style: inherit;
+	font-weight: 400;
+}
+
+body {
+	margin: 0;
+	font-family: 'DM Sans', sans-serif;
+	background-color: #363F46;
+	font-size: 20px;
+}
+
+.wrapper {
+	max-width: 1280px;
+	overflow: hidden;
+	height: 100%;
+	margin: 0 auto;
+	padding: 0 5px;
+}
+
+.container {
+	display: flex;
+	
+	flex-direction: column;
+	align-items: center;
+	height: 100%;
+}
+.container .row {
+	width: 100%;
+}
+
+.jcc {
+	justify-content: center;
+}
+
+.authorization {
+	height: 200px;
+	width: 300px;
+	margin: 0;
+}
+
+.wallets {
+	width: 300px;
+}
+
+.input {
+	display: block;
+	text-align: center;
+	width: 200px;
+	min-width: 100px;
+	height: 35px;
+	margin: 5px auto 5px;
+	background: #000;
+	font-weight: 400;
+	color: #FFF;
+	border: 0;
+	border-radius: 6px;
+	font-size: 20px;
+}
+
+.authorization p {
+	display: block;
+	text-align: center;
+	max-width: 300px;
+	text-align: center;
+	font-weight: 700;
+	margin: 10px 0 10px;
+	color: #FFF;
+}
+
+.wallets p {
+	display: block;
+	text-align: center;
+	max-width: 300px;
+	text-align: center;
+	font-weight: 700;
+	margin: 10px 0 10px;
+	color: #FFF;
+}
+
+.button {
+	display: block;
+	text-align: center;
+	width: 200px;
+	min-width: 100px;
+	height: 35px;
+	line-height: 30px;
+	margin: 5px auto 5px;
+	background: #118DA8;
+	font-weight: 400;
+	color: #FFF;
+	border: 0;
+	border-radius: 6px;
+	margin: 5px auto 5px;
+	font-size: 20px;
+}
+
+.transactions {
+	border-radius: 6px;
+	margin: 5px 0 5px;
+	background: #000;
+	padding: 15px 20px;
+	width: 100%;
+}
+
+.transaction {
+	display: flex;
+	color: #FFF;
+	border-radius: 6px;
+	margin: 5px 0 5px;
+	background: #363F46;
+}
+
+.transaction-info {
+	flex: 0 1 10%;
+	display: flex;
+	flex-direction: column;
+	margin: 5px 0 5px 10px;
+}
+
+.transaction-sum {
+	margin: 5px 0 5px;
+}
+
+.transaction-date {
+	margin: 5px 0 5px;
+}
+
+.transaction-des {
+	display: flex;
+	flex: 0 1 90%;
+	align-items: center;
+	margin: 5px 5px 5px 0;
+	line-height: 100%;
+	margin: 5px 5px 5px 0;
+	align-items: center;
+	padding-left: 5px;
+}
+
+.general-statistic {
+	display: flex;
+	flex-wrap: wrap;
+	color: #FFF;
+	margin: 0 -5px;
+}
+
+.general-statistic .col {
+	flex: 1 1 50%;
+	padding: 0 5px;
+	margin: 5px 0;
+	min-width: 500px;
+}
+
+.wallet {
+	width: 100%;
+	height: 100%;
+	min-height: 200px;
+	border-radius: 6px;
+	background: #000;
+	padding: 15px 20px;
+}
+
+.cash-info {
+	border-radius: 6px;
+	background: #000;
+	padding: 15px 20px;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.wallet-info {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.wallet-name {
+	margin: 5px 0;
+	font-size: 40px;
+}
+
+.balance {
+	margin: 5px 0;
+	font-size: 35px;
+}
+
+.cash-parms {
+	display: flex;
+	margin: 5px 0;
+}
+
+.cash-parms .parm {
+	flex: 0 1 90%;
+}
+
+.cash-parms .value {
+	flex: 0 1 10%;
+}
+
+.expenses-bar {
+	height: 30px;
+	background: red;
+	margin: 5px 0;
+}
+
+.income-bar {
+	height: 30px;
+	background: green;
+	margin: 5px 0;
+}
+
+.red {
+	color: red;
+}
+
+.green {
+	color: green;
+}
+
+.line {
+	width: 100%;
+	height: 2px;
+	background: #363F46;
+	margin: 5px 0;
+}
