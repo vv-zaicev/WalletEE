@@ -134,7 +134,7 @@ public class DatabaseController implements AutoCloseable {
 	    addTransactionsStatement.setInt(4, getIdTransactionType(transaction.type()));
 	    addTransactionsStatement.setInt(5, currentWallet.getInt("Id"));
 	    addTransactionsStatement.executeUpdate();
-	    changeBalance(transaction);
+	    changeBalance(transaction.sum(), transaction.type() == TransactionType.INCOME);
 
 	    connection.commit();
 	    return true;
@@ -150,13 +150,46 @@ public class DatabaseController implements AutoCloseable {
 
     }
 
-    private void changeBalance(Transaction transaction) throws SQLException {
+    public boolean updateTransaction(Transaction transaction) {
+	CachedRowSet currentTransaction = getTransactionInfo(transaction.id());
+	try {
+	    connection.setAutoCommit(false);
+
+	    BigDecimal currentSum = currentTransaction.getBigDecimal("Sum");
+	    TransactionType type = TransactionType.valueOf(currentTransaction.getString("TransactionTypeName").toUpperCase());
+	    changeBalance(currentSum, !(type == TransactionType.INCOME));
+	    PreparedStatement updateTransactionsStatement = connection.prepareStatement(SQLCommands.UPDATE_TRANSACTION);
+
+	    updateTransactionsStatement.setString(1, transaction.descriprion());
+	    updateTransactionsStatement.setBigDecimal(2, transaction.sum());
+	    updateTransactionsStatement.setDate(3, new java.sql.Date(transaction.calendar().getTimeInMillis()));
+	    updateTransactionsStatement.setInt(4, getIdTransactionType(transaction.type()));
+	    updateTransactionsStatement.setInt(5, transaction.id());
+	    updateTransactionsStatement.executeUpdate();
+
+	    changeBalance(transaction.sum(), transaction.type() == TransactionType.INCOME);
+
+	    connection.commit();
+	    return true;
+	} catch (SQLException e) {
+	    try {
+		connection.rollback();
+	    } catch (SQLException e1) {
+		e1.printStackTrace();
+	    }
+	    e.printStackTrace();
+	    return false;
+	}
+
+    }
+
+    private void changeBalance(BigDecimal sum, boolean isPositive) throws SQLException {
 	BigDecimal currentBalance = currentWallet.getBigDecimal("Balance");
 
-	if (transaction.type() == TransactionType.EXPENSES) {
-	    currentBalance = currentBalance.subtract(transaction.sum());
+	if (!isPositive) {
+	    currentBalance = currentBalance.subtract(sum);
 	} else {
-	    currentBalance = currentBalance.add(transaction.sum());
+	    currentBalance = currentBalance.add(sum);
 	}
 
 	currentWallet.updateBigDecimal("Balance", currentBalance);
@@ -176,6 +209,22 @@ public class DatabaseController implements AutoCloseable {
 	    e.printStackTrace();
 	    return -1;
 	}
+    }
+
+    private CachedRowSet getTransactionInfo(int id) {
+	try {
+	    PreparedStatement transactionInfoStatement = connection.prepareStatement(SQLCommands.SELECT_TRANSACTION,
+		    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	    transactionInfoStatement.setInt(1, id);
+	    CachedRowSet transactionInfo = cacheResultSet(transactionInfoStatement.executeQuery());
+	    transactionInfo.first();
+	    return transactionInfo;
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	    return null;
+	}
+
     }
 
     @Override

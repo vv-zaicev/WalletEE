@@ -14,10 +14,13 @@
 <head>
 <meta charset="UTF-8">
 <%
+String path = request.getContextPath();
 DatabaseController db = (DatabaseController) session.getAttribute("db");
-String walletName = request.getParameter("wallet");
+String walletName = request.getParameter("name");
+System.out.println(walletName);
 db.setCurrentWallet(walletName);
 Wallet wallet = db.getWallet(1);
+session.setAttribute("wallet", wallet);
 
 BigDecimal divider = wallet.getIncome().max(wallet.getExpenses());
 BigDecimal incomePercent = wallet.getIncome().divide(divider, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
@@ -35,7 +38,6 @@ BigDecimal expensesPercent = wallet.getExpenses().divide(divider, RoundingMode.H
 					<div class="col">
 						<div class="wallet">
 							<div class="wallet-info">
-
 								<div class="wallet-name"><%=wallet.getWalletName()%></div>
 								<div class="balance">
 									Баланс:<%=String.format("%.2f", wallet.getBalance().doubleValue())%></div>
@@ -85,9 +87,14 @@ BigDecimal expensesPercent = wallet.getExpenses().divide(divider, RoundingMode.H
 					    out.println(String.format("<div class=\"transaction-date\">%s</div>", date));
 					    out.println("</div>");
 					    out.println(String.format("<div class=\"transaction-des\">%s</div>", descriprtionForDisplay));
+					    out.println("<div class=\"transaction-update\">");
+					    out.println(String.format("<a href=\"%s/wallet/transaction?action=update&id=%d\" class=\"button\">UPDATE</a>", path, transaction.id()));
+					    out.println("</div >");
 					    out.println("</div>");
 					}
 					%>
+
+
 				</div>
 			</div>
 		</div>

@@ -12,6 +12,15 @@
 		<servlet-name>AuthorizationServlet</servlet-name>
 		<url-pattern>/start</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>TransactionServlet</servlet-name>
+		<servlet-class>TransactionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TransactionServlet</servlet-name>
+		<url-pattern>/wallet/transaction</url-pattern>
+	</servlet-mapping>
 
 
 	<servlet>
@@ -29,7 +38,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>WalletView</servlet-name>
-		<url-pattern>/view</url-pattern>
+		<url-pattern>/wallet</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -39,6 +48,15 @@
 	<servlet-mapping>
 		<servlet-name>Wallets</servlet-name>
 		<url-pattern>/choice</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>TransactionUpdate</servlet-name>
+		<jsp-file>/views/transaction/UpdateTransaction.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TransactionUpdate</servlet-name>
+		<url-pattern>/wallet/transaction/update</url-pattern>
 	</servlet-mapping>
 
 

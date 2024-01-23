@@ -19,7 +19,7 @@
 				DatabaseController db = (DatabaseController) session.getAttribute("db");
 				String path = request.getContextPath();
 				for (String walletName : db.getWalletNames()) {
-				    out.println(String.format("<a href=\"%s/view?wallet=%s\" class=\"button\">%s</a>", path, walletName, walletName));
+				    out.println(String.format("<a href=\"%s/wallet?name=%s\" class=\"button\">%s</a>", path, walletName, walletName));
 				}
 				%>
 			</div>

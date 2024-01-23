@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.sql.rowset.CachedRowSet;
@@ -58,31 +59,39 @@ public class Wallet {
 	    Date date = transactionsInfo.getDate("Date");
 	    Calendar calendar = GregorianCalendar.getInstance();
 	    calendar.setTime(date);
+	    int id = transactionsInfo.getInt("Id");
 	    Transaction transaction = new Transaction(transactionsInfo.getString("Description"), transactionsInfo.getBigDecimal("Sum"), type,
-		    calendar);
+		    calendar, id);
 
-	    addTransaction(transaction, false);
+	    transactions.add(transaction);
+
 	}
+	changeSums();
     }
 
     public void addTransaction(Transaction transaction) {
-	addTransaction(transaction, true);
-    }
-
-    public void addTransaction(Transaction transaction, boolean needChangeBalance) {
 	transactions.add(transaction);
-	changeSums(transaction, needChangeBalance);
+	changeSums();
+	changeBalance(transaction, x -> x == TransactionType.INCOME);
     }
 
-    private void changeSums(Transaction transaction, boolean needChangeBalance) {
-	if (transaction.type() == TransactionType.INCOME) {
-	    if (needChangeBalance)
-		balance = balance.add(transaction.sum());
-	    income = income.add(transaction.sum());
-	} else if (transaction.type() == TransactionType.EXPENSES) {
-	    if (needChangeBalance)
-		balance = balance.subtract(transaction.sum());
-	    expenses = expenses.add(transaction.sum());
+    public void removeTransaction(Transaction transaction) {
+	transactions.remove(transaction);
+	changeSums();
+	changeBalance(transaction, x -> x == TransactionType.EXPENSES);
+    }
+
+    private void changeSums() {
+	income = transactions.stream().filter(x -> x.type() == TransactionType.INCOME).map(x -> x.sum()).reduce(BigDecimal.ZERO, BigDecimal::add);
+	expenses = transactions.stream().filter(x -> x.type() == TransactionType.EXPENSES).map(x -> x.sum()).reduce(BigDecimal.ZERO, BigDecimal::add);
+
+    }
+
+    private void changeBalance(Transaction transaction, Predicate<TransactionType> predicate) {
+	if (predicate.test(transaction.type())) {
+	    balance.add(transaction.sum());
+	} else {
+	    balance.subtract(transaction.sum());
 	}
     }
 
@@ -92,6 +101,10 @@ public class Wallet {
 
     public void displayWalletName() {
 	System.out.println(walletName);
+    }
+
+    public Transaction getTransaction(int id) {
+	return transactions.stream().filter(x -> x.id() == id).findFirst().orElse(null);
     }
 
     public List<Transaction> getTransactions() {
