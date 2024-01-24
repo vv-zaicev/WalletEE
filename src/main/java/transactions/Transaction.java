@@ -14,12 +14,15 @@ public class Transaction {
     private Calendar calendar;
     private int id;
 
-    public Transaction(String descriprion, BigDecimal sum, TransactionType type, Calendar calendar, int id) {
-	super();
+    public Transaction(String descriprion, BigDecimal sum, TransactionType type, Calendar calendar) {
 	this.descriprion = descriprion;
 	this.sum = sum;
 	this.type = type;
 	this.calendar = calendar;
+    }
+
+    public Transaction(String descriprion, BigDecimal sum, TransactionType type, Calendar calendar, int id) {
+	this(descriprion, sum, type, calendar);
 	this.id = id;
     }
 
@@ -57,6 +60,10 @@ public class Transaction {
 
     public int id() {
 	return id;
+    }
+
+    public void setId(int id) {
+	this.id = id;
     }
 
     public boolean isCorrect(TransactionFilter transactionFilter) {

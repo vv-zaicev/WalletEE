@@ -125,7 +125,7 @@ public class DatabaseController implements AutoCloseable {
 
     public boolean addTransaction(Transaction transaction) {
 	try {
-	    PreparedStatement addTransactionsStatement = connection.prepareStatement(SQLCommands.INSERT_TRANSACTION);
+	    PreparedStatement addTransactionsStatement = connection.prepareStatement(SQLCommands.INSERT_TRANSACTION, Statement.RETURN_GENERATED_KEYS);
 	    connection.setAutoCommit(false);
 
 	    addTransactionsStatement.setString(1, transaction.descriprion());
@@ -135,6 +135,12 @@ public class DatabaseController implements AutoCloseable {
 	    addTransactionsStatement.setInt(5, currentWallet.getInt("Id"));
 	    addTransactionsStatement.executeUpdate();
 	    changeBalance(transaction.sum(), transaction.type() == TransactionType.INCOME);
+
+	    try (ResultSet generatedKeys = addTransactionsStatement.getGeneratedKeys()) {
+		if (generatedKeys.next()) {
+		    transaction.setId(generatedKeys.getInt(1));
+		}
+	    }
 
 	    connection.commit();
 	    return true;

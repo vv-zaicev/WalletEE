@@ -112,7 +112,7 @@ public class Wallet {
     }
 
     public List<Transaction> getTransactions(TransactionFilter transactionFilter) {
-	return transactions.stream().filter(x -> x.isCorrect(transactionFilter)).limit(transactionFilter.getLimit())
-		.sorted((x, y) -> y.calendar().compareTo(x.calendar())).collect(Collectors.toList());
+	return transactions.stream().filter(x -> x.isCorrect(transactionFilter)).sorted((x, y) -> y.calendar().compareTo(x.calendar()))
+		.limit(transactionFilter.getLimit()).collect(Collectors.toList());
     }
 }

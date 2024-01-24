@@ -149,8 +149,6 @@ input[type="date"]:placeholder {
 	z-index: 99;
 }
 
-
-
 input[type="date"] {
 	padding: 12px 20px;
 }
@@ -168,6 +166,26 @@ input[type="date"] {
 	border: 0;
 	border-radius: 6px;
 	font-size: 20px;
+}
+
+.selectTransactionType {
+	min-width: 100px;
+	margin: 5px auto 5px;
+}
+
+select {
+	appearance: none;
+	text-align: center;
+	-webkit-appearance: none;
+	width: 200px;
+	font-size: 20px;
+	min-width: 100px;
+	height: 35px;
+	background-color: #000;
+	border: 0;
+	border-radius: 6px;
+	color: #FFF;
+	cursor: pointer;
 }
 
 .authorization p {
@@ -323,6 +341,14 @@ input[type="date"] {
 	height: 30px;
 	background: green;
 	margin: 5px 0;
+}
+
+.EXPENSEScolor {
+	color: red;
+}
+
+.INCOMEcolor {
+	color: green;
 }
 
 .red {

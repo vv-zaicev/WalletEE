@@ -1,3 +1,6 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.stream.Collectors"%>
+<%@page import="java.util.stream.Collector"%>
 <%@page import="java.math.RoundingMode"%>
 <%@page import="java.math.BigDecimal"%>
 <%@page import="transactions.TransactionType"%>
@@ -68,6 +71,7 @@ BigDecimal expensesPercent = wallet.getExpenses().divide(divider, RoundingMode.H
 				</div>
 			</div>
 			<div class="row">
+			<a href="wallet/transaction?action=create" class="button">CREATE</a>
 				<div class="transactions">
 					<%
 					for (Transaction transaction : wallet.getTransactions(new TransactionFilter.Builder().limit(5).build())) {
