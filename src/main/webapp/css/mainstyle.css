@@ -258,7 +258,7 @@ select {
 
 .transaction-des {
 	display: flex;
-	flex: 0 1 80%;
+	flex: 0 1 70%;
 	align-items: center;
 	margin: 5px 5px 5px 0;
 	line-height: 100%;
@@ -266,6 +266,10 @@ select {
 }
 
 .transaction-update {
+	flex: 0 1 10%;
+}
+
+.transaction-remove {
 	flex: 0 1 10%;
 }
 

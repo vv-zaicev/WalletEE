@@ -19,6 +19,9 @@ public class TransactionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	req.setCharacterEncoding("UTF-8");
+	resp.setCharacterEncoding("UTF-8");
+
 	String action = req.getParameter("action");
 	switch (action == null ? "info" : action) {
 	case "update":
@@ -26,9 +29,6 @@ public class TransactionServlet extends HttpServlet {
 	    break;
 	case "create":
 	    req.getRequestDispatcher("transaction/create").forward(req, resp);
-	    break;
-	case "remove":
-	    req.getRequestDispatcher("transaction/remove").forward(req, resp);
 	    break;
 	case "info":
 	default:
@@ -38,6 +38,9 @@ public class TransactionServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	req.setCharacterEncoding("UTF-8");
+	resp.setCharacterEncoding("UTF-8");
+
 	String action = req.getParameter("action");
 	int id = Integer.valueOf(req.getParameter("id") == null ? "0" : req.getParameter("id"));
 
@@ -82,6 +85,11 @@ public class TransactionServlet extends HttpServlet {
 	    Transaction newTransaction = new Transaction(desc, sum, type, calendar);
 	    db.addTransaction(newTransaction);
 	    wallet.addTransaction(newTransaction);
+	}
+
+	if (action.equals("submitDelete")) {
+	    wallet.removeTransaction(transaction);
+	    db.removeTransaction(transaction);
 	}
 
 	String path = String.format("%s/wallet?name=%s", req.getContextPath(), wallet.getWalletName());

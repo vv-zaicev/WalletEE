@@ -67,15 +67,7 @@
 		<servlet-name>TransactionCreate</servlet-name>
 		<url-pattern>/wallet/transaction/create</url-pattern>
 	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>TransactionRemove</servlet-name>
-		<jsp-file>/views/transaction/RemoveTransaction.jsp</jsp-file>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>TransactionRemove</servlet-name>
-		<url-pattern>/wallet/transaction/remove</url-pattern>
-	</servlet-mapping>
+
 
 
 </web-app>

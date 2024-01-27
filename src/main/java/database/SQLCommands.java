@@ -17,4 +17,6 @@ public class SQLCommands {
 
     public static final String UPDATE_TRANSACTION = "UPDATE Transactions SET Description = ?, Sum = ?, Date = ?, TransactionTypeId = ? WHERE Id = ?";
 
+    public static final String DELETE_TRANSACTION = "DELETE FROM Transactions WHERE Id = ?";
+
 }

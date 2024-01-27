@@ -20,14 +20,21 @@
 String path = request.getContextPath();
 DatabaseController db = (DatabaseController) session.getAttribute("db");
 String walletName = request.getParameter("name");
-System.out.println(walletName);
 db.setCurrentWallet(walletName);
 Wallet wallet = db.getWallet(1);
 session.setAttribute("wallet", wallet);
 
 BigDecimal divider = wallet.getIncome().max(wallet.getExpenses());
-BigDecimal incomePercent = wallet.getIncome().divide(divider, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
-BigDecimal expensesPercent = wallet.getExpenses().divide(divider, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
+BigDecimal incomePercent = null;
+BigDecimal expensesPercent = null;
+if (!divider.equals(BigDecimal.ZERO)) {
+    incomePercent = wallet.getIncome().divide(divider, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
+    expensesPercent = wallet.getExpenses().divide(divider, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
+} else {
+    incomePercent = new BigDecimal(100);
+    expensesPercent = new BigDecimal(100);
+}
+
 %>
 <title><%=walletName%></title>
 <link href="${pageContext.request.contextPath}/css/mainstyle.css"
@@ -71,7 +78,7 @@ BigDecimal expensesPercent = wallet.getExpenses().divide(divider, RoundingMode.H
 				</div>
 			</div>
 			<div class="row">
-			<a href="wallet/transaction?action=create" class="button">CREATE</a>
+				<a href="wallet/transaction?action=create" class="button">CREATE</a>
 				<div class="transactions">
 					<%
 					for (Transaction transaction : wallet.getTransactions(new TransactionFilter.Builder().limit(5).build())) {
@@ -94,6 +101,10 @@ BigDecimal expensesPercent = wallet.getExpenses().divide(divider, RoundingMode.H
 					    out.println("<div class=\"transaction-update\">");
 					    out.println(String.format("<a href=\"%s/wallet/transaction?action=update&id=%d\" class=\"button\">UPDATE</a>", path, transaction.id()));
 					    out.println("</div >");
+					    out.println(
+					    String.format("<form method=\"post\" action=\"wallet/transaction?action=submitDelete&id=%d\" class\"transaction-remove\">", transaction.id()));
+					    out.println("<button type=\"submit\" class=\"button\">DELETE</button>");
+					    out.println("</form>");
 					    out.println("</div>");
 					}
 					%>

@@ -189,6 +189,28 @@ public class DatabaseController implements AutoCloseable {
 
     }
 
+    public boolean removeTransaction(Transaction transaction) {
+	try {
+	    connection.setAutoCommit(false);
+
+	    changeBalance(transaction.sum(), !(transaction.type() == TransactionType.INCOME));
+	    PreparedStatement updateTransactionsStatement = connection.prepareStatement(SQLCommands.DELETE_TRANSACTION);
+	    updateTransactionsStatement.setInt(1, transaction.id());
+	    updateTransactionsStatement.executeUpdate();
+
+	    connection.commit();
+	    return true;
+	} catch (SQLException e) {
+	    try {
+		connection.rollback();
+	    } catch (SQLException e1) {
+		e1.printStackTrace();
+	    }
+	    e.printStackTrace();
+	    return false;
+	}
+    }
+
     private void changeBalance(BigDecimal sum, boolean isPositive) throws SQLException {
 	BigDecimal currentBalance = currentWallet.getBigDecimal("Balance");
 
