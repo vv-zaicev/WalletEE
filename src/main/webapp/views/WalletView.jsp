@@ -18,6 +18,9 @@
 <meta charset="UTF-8">
 <%
 String path = request.getContextPath();
+String updateImg = String.format("<img src=\"%s/icons/update.svg\" alt=\"update\" class=\"icon\">", path);
+String deleteImg = String.format("<img src=\"%s/icons/delete.svg\" alt=\"delete\" class=\"icon\">", path);
+
 DatabaseController db = (DatabaseController) session.getAttribute("db");
 String walletName = request.getParameter("name");
 db.setCurrentWallet(walletName);
@@ -34,7 +37,6 @@ if (!divider.equals(BigDecimal.ZERO)) {
     incomePercent = new BigDecimal(100);
     expensesPercent = new BigDecimal(100);
 }
-
 %>
 <title><%=walletName%></title>
 <link href="${pageContext.request.contextPath}/css/mainstyle.css"
@@ -78,8 +80,16 @@ if (!divider.equals(BigDecimal.ZERO)) {
 				</div>
 			</div>
 			<div class="row">
-				<a href="wallet/transaction?action=create" class="button">CREATE</a>
+
 				<div class="transactions">
+					<div class="tool-bar">
+						<a href="wallet/transaction?action=create"
+							class="transaction-create"> <img
+							src="${pageContext.request.contextPath}/icons/create.svg"
+							alt="create" class="icon">
+						</a>
+					</div>
+
 					<%
 					for (Transaction transaction : wallet.getTransactions(new TransactionFilter.Builder().limit(5).build())) {
 					    DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
@@ -99,11 +109,11 @@ if (!divider.equals(BigDecimal.ZERO)) {
 					    out.println("</div>");
 					    out.println(String.format("<div class=\"transaction-des\">%s</div>", descriprtionForDisplay));
 					    out.println("<div class=\"transaction-update\">");
-					    out.println(String.format("<a href=\"%s/wallet/transaction?action=update&id=%d\" class=\"button\">UPDATE</a>", path, transaction.id()));
+					    out.println(String.format("<a href=\"%s/wallet/transaction?action=update&id=%d\">%s</a>", path, transaction.id(), updateImg));
 					    out.println("</div >");
-					    out.println(
-					    String.format("<form method=\"post\" action=\"wallet/transaction?action=submitDelete&id=%d\" class\"transaction-remove\">", transaction.id()));
-					    out.println("<button type=\"submit\" class=\"button\">DELETE</button>");
+					    out.println(String.format("<form method=\"post\" action=\"wallet/transaction?action=submitDelete&id=%d\" class=\"transaction-remove\">",
+					    transaction.id()));
+					    out.println(String.format("<button type=\"submit\">%s</button>\n", deleteImg));
 					    out.println("</form>");
 					    out.println("</div>");
 					}

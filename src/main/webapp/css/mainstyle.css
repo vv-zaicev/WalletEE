@@ -80,6 +80,12 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: 400;
 }
 
+button {
+	padding: 0;
+	border: 0;
+	background: 0;
+}
+/*--------------------------------------------------------------------*/
 body {
 	margin: 0;
 	font-family: 'DM Sans', sans-serif;
@@ -237,28 +243,29 @@ select {
 	display: flex;
 	color: #FFF;
 	border-radius: 6px;
-	margin: 5px 0 5px;
+	margin: 5px 0;
 	background: #363F46;
+	padding: 0 5px;
 }
 
 .transaction-info {
 	flex: 0 1 10%;
 	display: flex;
 	flex-direction: column;
-	margin: 5px 0 5px 10px;
+	margin: 5px 0 5px 5px;
 }
 
 .transaction-sum {
-	margin: 5px 0 5px;
+	margin: 5px 0;
 }
 
 .transaction-date {
-	margin: 5px 0 5px;
+	margin: 5px 0;
 }
 
 .transaction-des {
 	display: flex;
-	flex: 0 1 70%;
+	flex: 1 1 auto;
 	align-items: center;
 	margin: 5px 5px 5px 0;
 	line-height: 100%;
@@ -266,11 +273,19 @@ select {
 }
 
 .transaction-update {
-	flex: 0 1 10%;
+	display: flex;
+	align-items: center;
+	padding: 0 5px;
 }
 
 .transaction-remove {
-	flex: 0 1 10%;
+	display: flex;
+	align-items: center;
+	padding: 0 5px;
+}
+
+.transaction-create {
+	padding: 0 5px;
 }
 
 .general-statistic {
@@ -368,4 +383,16 @@ select {
 	height: 2px;
 	background: #363F46;
 	margin: 5px 0;
+}
+
+.tool-bar {
+	display: flex;
+	margin-bottom: 10px;
+	justify-content: flex-end;
+	padding: 0 5px;
+}
+
+.icon {
+	width: 30px;
+	height: 30px;
 }
