@@ -99,7 +99,11 @@ if (!divider.equals(BigDecimal.ZERO)) {
 						descriprtionForDisplay = transaction.descriprion().substring(0, 48) + "...";
 					    }
 					    out.println("<div class=\"transaction\">");
-					    out.println("<div class=\"transaction-info\">");
+					    out.println("<div class=\"transaction-left\">");
+					    out.println(String.format("<div class=\"transaction-cat\">%s</div>", transaction.category().name()));
+					    out.println(String.format("<div class=\"transaction-des\">%s</div>", descriprtionForDisplay));
+					    out.println("</div>");
+					    out.println("<div class=\"transaction-right\">");
 					    if (transaction.type() == TransactionType.INCOME) {
 						out.println(String.format("<div class=\"transaction-sum\" style=\"color: green\">+%.2f</div>", transaction.sum().doubleValue()));
 					    } else {
@@ -107,7 +111,6 @@ if (!divider.equals(BigDecimal.ZERO)) {
 					    }
 					    out.println(String.format("<div class=\"transaction-date\">%s</div>", date));
 					    out.println("</div>");
-					    out.println(String.format("<div class=\"transaction-des\">%s</div>", descriprtionForDisplay));
 					    out.println("<div class=\"transaction-update\">");
 					    out.println(String.format("<a href=\"%s/wallet/transaction?action=update&id=%d\">%s</a>", path, transaction.id(), updateImg));
 					    out.println("</div >");

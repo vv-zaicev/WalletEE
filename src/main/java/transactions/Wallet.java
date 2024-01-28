@@ -60,8 +60,10 @@ public class Wallet {
 	    Calendar calendar = GregorianCalendar.getInstance();
 	    calendar.setTime(date);
 	    int id = transactionsInfo.getInt("Id");
+	    TransactionCategory category = new TransactionCategory(transactionsInfo.getString("TransactionCategoryName"),
+		    transactionsInfo.getInt("TransactionCategoryId"));
 	    Transaction transaction = new Transaction(transactionsInfo.getString("Description"), transactionsInfo.getBigDecimal("Sum"), type,
-		    calendar, id);
+		    calendar, category, id);
 
 	    transactions.add(transaction);
 

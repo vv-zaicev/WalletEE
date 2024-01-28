@@ -18,6 +18,7 @@ import javax.sql.rowset.RowSetFactory;
 import javax.sql.rowset.RowSetProvider;
 
 import transactions.Transaction;
+import transactions.TransactionCategory;
 import transactions.TransactionType;
 import transactions.Wallet;
 
@@ -132,7 +133,8 @@ public class DatabaseController implements AutoCloseable {
 	    addTransactionsStatement.setBigDecimal(2, transaction.sum());
 	    addTransactionsStatement.setDate(3, new java.sql.Date(transaction.calendar().getTimeInMillis()));
 	    addTransactionsStatement.setInt(4, getIdTransactionType(transaction.type()));
-	    addTransactionsStatement.setInt(5, currentWallet.getInt("Id"));
+	    addTransactionsStatement.setInt(5, transaction.category().id());
+	    addTransactionsStatement.setInt(6, currentWallet.getInt("Id"));
 	    addTransactionsStatement.executeUpdate();
 	    changeBalance(transaction.sum(), transaction.type() == TransactionType.INCOME);
 
@@ -170,7 +172,8 @@ public class DatabaseController implements AutoCloseable {
 	    updateTransactionsStatement.setBigDecimal(2, transaction.sum());
 	    updateTransactionsStatement.setDate(3, new java.sql.Date(transaction.calendar().getTimeInMillis()));
 	    updateTransactionsStatement.setInt(4, getIdTransactionType(transaction.type()));
-	    updateTransactionsStatement.setInt(5, transaction.id());
+	    updateTransactionsStatement.setInt(5, transaction.category().id());
+	    updateTransactionsStatement.setInt(6, transaction.id());
 	    updateTransactionsStatement.executeUpdate();
 
 	    changeBalance(transaction.sum(), transaction.type() == TransactionType.INCOME);
@@ -239,6 +242,21 @@ public class DatabaseController implements AutoCloseable {
 	}
     }
 
+    public TransactionCategory getTransactionCategory(int id) {
+	try {
+	    PreparedStatement transactionCategoryStatement = connection.prepareStatement(SQLCommands.SELECT_TRANSACTION_CATEGORY,
+		    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	    transactionCategoryStatement.setInt(1, id);
+	    ResultSet transactionCategoryResultSet = transactionCategoryStatement.executeQuery();
+	    transactionCategoryResultSet.first();
+	    return new TransactionCategory(transactionCategoryResultSet.getString("TransactionCategoryName"),
+		    transactionCategoryResultSet.getInt("Id"));
+	} catch (Exception e) {
+	    e.printStackTrace();
+	    return null;
+	}
+    }
+
     private CachedRowSet getTransactionInfo(int id) {
 	try {
 	    PreparedStatement transactionInfoStatement = connection.prepareStatement(SQLCommands.SELECT_TRANSACTION,
@@ -248,11 +266,22 @@ public class DatabaseController implements AutoCloseable {
 	    transactionInfo.first();
 	    return transactionInfo;
 	} catch (SQLException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	    return null;
 	}
 
+    }
+
+    public CachedRowSet getTransactionCategoriesInfo() {
+	try {
+	    PreparedStatement transactionCategoryStatement = connection.prepareStatement(SQLCommands.SELECT_TRANSACTION_CATEGORIES,
+		    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	    CachedRowSet transactionCategoryInfo = cacheResultSet(transactionCategoryStatement.executeQuery());
+	    return transactionCategoryInfo;
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	    return null;
+	}
     }
 
     @Override

@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import database.DatabaseController;
 import transactions.Transaction;
+import transactions.TransactionCategory;
 import transactions.TransactionType;
 import transactions.Wallet;
 
@@ -43,6 +45,7 @@ public class TransactionServlet extends HttpServlet {
 
 	String action = req.getParameter("action");
 	int id = Integer.valueOf(req.getParameter("id") == null ? "0" : req.getParameter("id"));
+	int categoryId = Integer.valueOf(req.getParameter("category") == null ? "0" : req.getParameter("category"));
 
 	HttpSession session = req.getSession();
 	DatabaseController db = (DatabaseController) session.getAttribute("db");
@@ -65,6 +68,7 @@ public class TransactionServlet extends HttpServlet {
 	    transaction.setType(TransactionType.valueOf(req.getParameter("type")));
 	    transaction.setCalendar(calendar);
 	    transaction.setDescriprion(req.getParameter("description"));
+	    transaction.setCategory(db.getTransactionCategory(categoryId));
 
 	    wallet.addTransaction(transaction);
 	    db.updateTransaction(transaction);
@@ -82,7 +86,9 @@ public class TransactionServlet extends HttpServlet {
 	    BigDecimal sum = new BigDecimal(req.getParameter("sum"));
 	    TransactionType type = TransactionType.valueOf(req.getParameter("type"));
 	    String desc = req.getParameter("description");
-	    Transaction newTransaction = new Transaction(desc, sum, type, calendar);
+	    TransactionCategory category = db.getTransactionCategory(categoryId);
+
+	    Transaction newTransaction = new Transaction(desc, sum, type, calendar, category);
 	    db.addTransaction(newTransaction);
 	    wallet.addTransaction(newTransaction);
 	}
@@ -92,7 +98,7 @@ public class TransactionServlet extends HttpServlet {
 	    db.removeTransaction(transaction);
 	}
 
-	String path = String.format("%s/wallet?name=%s", req.getContextPath(), wallet.getWalletName());
+	String path = String.format("%s/wallet?name=%s", req.getContextPath(), URLEncoder.encode(wallet.getWalletName(), "UTF-8"));
 	resp.sendRedirect(path);
     }
 

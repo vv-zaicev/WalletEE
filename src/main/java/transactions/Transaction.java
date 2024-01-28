@@ -13,16 +13,18 @@ public class Transaction {
     private TransactionType type;
     private Calendar calendar;
     private int id;
+    private TransactionCategory category;
 
-    public Transaction(String descriprion, BigDecimal sum, TransactionType type, Calendar calendar) {
-	this.descriprion = descriprion;
+    public Transaction(String descriprion, BigDecimal sum, TransactionType type, Calendar calendar, TransactionCategory category) {
+	this.descriprion = descriprion == null ? "" : descriprion;
+	this.category = category;
 	this.sum = sum;
 	this.type = type;
 	this.calendar = calendar;
     }
 
-    public Transaction(String descriprion, BigDecimal sum, TransactionType type, Calendar calendar, int id) {
-	this(descriprion, sum, type, calendar);
+    public Transaction(String descriprion, BigDecimal sum, TransactionType type, Calendar calendar, TransactionCategory category, int id) {
+	this(descriprion, sum, type, calendar, category);
 	this.id = id;
     }
 
@@ -56,6 +58,14 @@ public class Transaction {
 
     public void setCalendar(Calendar calendar) {
 	this.calendar = calendar;
+    }
+
+    public TransactionCategory category() {
+	return category;
+    }
+
+    public void setCategory(TransactionCategory category) {
+	this.category = category;
     }
 
     public int id() {
