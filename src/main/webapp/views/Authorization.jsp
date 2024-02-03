@@ -8,7 +8,7 @@
 <body>
 	<div class="wrapper">
 		<div class="container jcc">
-			<form method="post" action="/wallet/start" class="authorization">
+			<form method="post" action="/" class="authorization">
 				<%
 				boolean succes = (boolean) request.getAttribute("succes");
 				if (!succes) {

@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+    database:
+      image: mysql
+      ports:
+      - "3307:3306"
+      environment:
+       MYSQL_ROOT_PASSWORD: root 
+       MYSQL_DATABASE: wallets 
+      restart: always              
+      command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+      volumes:
+       - ./src/main/db:/docker-entrypoint-initdb.d 
+       - /data/:/var/lib/mysql
+    web:
+      container_name: tomcat
+      image: vadimzaicev/wallet
+      build: .
+      ports:
+        - "80:8080"

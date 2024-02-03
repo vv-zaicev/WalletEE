@@ -23,14 +23,14 @@ import transactions.TransactionType;
 import transactions.Wallet;
 
 public class DatabaseController implements AutoCloseable {
-    private static final String HOST = "jdbc:mysql://localhost:3306/wallets";
+    private static final String HOST = "jdbc:mysql://database:3306/wallets?useUnicode=true&characterEncoding=UTF-8";
     private Connection connection;
     private ResultSet currentWallet;
 
     public DatabaseController(String username, String password) throws SQLException {
 
 	try {
-	    Class.forName("com.mysql.jdbc.Driver");
+	    Class.forName("com.mysql.cj.jdbc.Driver");
 	} catch (ClassNotFoundException e) {
 	    System.out.println("Class not found " + e);
 	}

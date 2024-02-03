@@ -4,15 +4,30 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 	<display-name>Wallet by Java EE</display-name>
+
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.js</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.css</url-pattern>
+	</servlet-mapping>
+		<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.svg</url-pattern>
+	</servlet-mapping>
+	
+
 	<servlet>
 		<servlet-name>AuthorizationServlet</servlet-name>
 		<servlet-class>AuthorizationServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>AuthorizationServlet</servlet-name>
-		<url-pattern>/start</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>TransactionServlet</servlet-name>
 		<servlet-class>TransactionServlet</servlet-class>
@@ -49,7 +64,7 @@
 		<servlet-name>Wallets</servlet-name>
 		<url-pattern>/choice</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>TransactionUpdate</servlet-name>
 		<jsp-file>/views/transaction/UpdateTransaction.jsp</jsp-file>
@@ -58,7 +73,7 @@
 		<servlet-name>TransactionUpdate</servlet-name>
 		<url-pattern>/wallet/transaction/update</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>TransactionCreate</servlet-name>
 		<jsp-file>/views/transaction/CreateTransaction.jsp</jsp-file>
