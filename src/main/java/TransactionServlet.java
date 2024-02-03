@@ -1,9 +1,11 @@
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,13 +13,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
 import database.DatabaseController;
 import transactions.Transaction;
 import transactions.TransactionCategory;
 import transactions.TransactionType;
 import transactions.Wallet;
+import transactions.filter.TransactionFilter;
 
 public class TransactionServlet extends HttpServlet {
+
+    private Gson gson = new Gson();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,7 +39,23 @@ public class TransactionServlet extends HttpServlet {
 	case "create":
 	    req.getRequestDispatcher("transaction/create").forward(req, resp);
 	    break;
-	case "info":
+	case "getTransactions":
+	    HttpSession session = req.getSession();
+	    String count = req.getParameter("count");
+	    Wallet wallet = (Wallet) session.getAttribute("wallet");
+	    List<Transaction> transactions;
+
+	    if (count == null || count.equals("0")) {
+		transactions = wallet.getTransactions();
+	    } else {
+		transactions = wallet.getTransactions(new TransactionFilter.Builder().limit(Integer.parseInt(count)).build());
+	    }
+	    String transactionsJson = this.gson.toJson(transactions);
+
+	    resp.setContentType("application/json");
+	    PrintWriter out = resp.getWriter();
+	    out.print(transactionsJson);
+	    out.flush();
 	default:
 	    break;
 	}
@@ -67,7 +90,7 @@ public class TransactionServlet extends HttpServlet {
 	    transaction.setSum(new BigDecimal(req.getParameter("sum")));
 	    transaction.setType(TransactionType.valueOf(req.getParameter("type")));
 	    transaction.setCalendar(calendar);
-	    transaction.setDescriprion(req.getParameter("description"));
+	    transaction.setDescription(req.getParameter("description"));
 	    transaction.setCategory(db.getTransactionCategory(categoryId));
 
 	    wallet.addTransaction(transaction);

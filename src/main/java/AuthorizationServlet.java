@@ -22,7 +22,6 @@ public class AuthorizationServlet extends HttpServlet {
 	PrintWriter pw = resp.getWriter();
 	Optional<String> pass = readCookie(req, "pass");
 	Optional<String> login = readCookie(req, "login");
-
 	if (pass.isEmpty() || login.isEmpty()) {
 	    req.setAttribute("succes", true);
 	    req.getRequestDispatcher("/authorization").forward(req, resp);

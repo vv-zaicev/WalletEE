@@ -92,8 +92,8 @@ Transaction transaction = wallet.getTransaction(id);
 				<input type="number" step="0.01" name="sum"
 					value="<%=transaction.sum()%>" placeholder="<%=transaction.sum()%>"
 					class="input"> <input type="text" name="description"
-					value="<%=transaction.descriprion()%>"
-					placeholder="<%=transaction.descriprion()%>" class="input">
+					value="<%=transaction.description()%>"
+					placeholder="<%=transaction.description()%>" class="input">
 				<input type="date" name="calendar"
 					value="<%=dateFormat.format(transaction.calendar().getTime())%>"
 					class="input">

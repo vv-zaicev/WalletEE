@@ -110,7 +110,7 @@ public class Wallet {
     }
 
     public List<Transaction> getTransactions() {
-	return transactions;
+	return transactions.stream().sorted((x, y) -> y.calendar().compareTo(x.calendar())).collect(Collectors.toList());
     }
 
     public List<Transaction> getTransactions(TransactionFilter transactionFilter) {

@@ -8,32 +8,32 @@ import transactions.filter.TransactionFilter;
 
 public class Transaction {
 
-    private String descriprion;
+    private String description;
     private BigDecimal sum;
     private TransactionType type;
     private Calendar calendar;
     private int id;
     private TransactionCategory category;
 
-    public Transaction(String descriprion, BigDecimal sum, TransactionType type, Calendar calendar, TransactionCategory category) {
-	this.descriprion = descriprion == null ? "" : descriprion;
+    public Transaction(String description, BigDecimal sum, TransactionType type, Calendar calendar, TransactionCategory category) {
+	this.description = description == null ? "" : description;
 	this.category = category;
 	this.sum = sum;
 	this.type = type;
 	this.calendar = calendar;
     }
 
-    public Transaction(String descriprion, BigDecimal sum, TransactionType type, Calendar calendar, TransactionCategory category, int id) {
-	this(descriprion, sum, type, calendar, category);
+    public Transaction(String description, BigDecimal sum, TransactionType type, Calendar calendar, TransactionCategory category, int id) {
+	this(description, sum, type, calendar, category);
 	this.id = id;
     }
 
-    public String descriprion() {
-	return descriprion;
+    public String description() {
+	return description;
     }
 
-    public void setDescriprion(String descriprion) {
-	this.descriprion = descriprion;
+    public void setDescription(String description) {
+	this.description = description;
     }
 
     public BigDecimal sum() {

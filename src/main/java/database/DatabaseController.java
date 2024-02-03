@@ -129,7 +129,7 @@ public class DatabaseController implements AutoCloseable {
 	    PreparedStatement addTransactionsStatement = connection.prepareStatement(SQLCommands.INSERT_TRANSACTION, Statement.RETURN_GENERATED_KEYS);
 	    connection.setAutoCommit(false);
 
-	    addTransactionsStatement.setString(1, transaction.descriprion());
+	    addTransactionsStatement.setString(1, transaction.description());
 	    addTransactionsStatement.setBigDecimal(2, transaction.sum());
 	    addTransactionsStatement.setDate(3, new java.sql.Date(transaction.calendar().getTimeInMillis()));
 	    addTransactionsStatement.setInt(4, getIdTransactionType(transaction.type()));
@@ -168,7 +168,7 @@ public class DatabaseController implements AutoCloseable {
 	    changeBalance(currentSum, !(type == TransactionType.INCOME));
 	    PreparedStatement updateTransactionsStatement = connection.prepareStatement(SQLCommands.UPDATE_TRANSACTION);
 
-	    updateTransactionsStatement.setString(1, transaction.descriprion());
+	    updateTransactionsStatement.setString(1, transaction.description());
 	    updateTransactionsStatement.setBigDecimal(2, transaction.sum());
 	    updateTransactionsStatement.setDate(3, new java.sql.Date(transaction.calendar().getTimeInMillis()));
 	    updateTransactionsStatement.setInt(4, getIdTransactionType(transaction.type()));

@@ -31,16 +31,19 @@ BigDecimal divider = wallet.getIncome().max(wallet.getExpenses());
 BigDecimal incomePercent = null;
 BigDecimal expensesPercent = null;
 if (!divider.equals(BigDecimal.ZERO)) {
-    incomePercent = wallet.getIncome().divide(divider, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
-    expensesPercent = wallet.getExpenses().divide(divider, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
+	incomePercent = wallet.getIncome().divide(divider, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
+	expensesPercent = wallet.getExpenses().divide(divider, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
 } else {
-    incomePercent = new BigDecimal(100);
-    expensesPercent = new BigDecimal(100);
+	incomePercent = new BigDecimal(100);
+	expensesPercent = new BigDecimal(100);
 }
 %>
 <title><%=walletName%></title>
 <link href="${pageContext.request.contextPath}/css/mainstyle.css"
 	rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath}/js/WalletView.js">
+	
+</script>
 </head>
 <body>
 	<div class="wrapper">
@@ -89,39 +92,8 @@ if (!divider.equals(BigDecimal.ZERO)) {
 							alt="create" class="icon">
 						</a>
 					</div>
-
-					<%
-					for (Transaction transaction : wallet.getTransactions(new TransactionFilter.Builder().limit(5).build())) {
-					    DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-					    String descriprtionForDisplay = transaction.descriprion();
-					    String date = dateFormat.format(transaction.calendar().getTime());
-					    if (descriprtionForDisplay.length() >= 50) {
-						descriprtionForDisplay = transaction.descriprion().substring(0, 48) + "...";
-					    }
-					    out.println("<div class=\"transaction\">");
-					    out.println("<div class=\"transaction-left\">");
-					    out.println(String.format("<div class=\"transaction-cat\">%s</div>", transaction.category().name()));
-					    out.println(String.format("<div class=\"transaction-des\">%s</div>", descriprtionForDisplay));
-					    out.println("</div>");
-					    out.println("<div class=\"transaction-right\">");
-					    if (transaction.type() == TransactionType.INCOME) {
-						out.println(String.format("<div class=\"transaction-sum\" style=\"color: green\">+%.2f</div>", transaction.sum().doubleValue()));
-					    } else {
-						out.println(String.format("<div class=\"transaction-sum\" style=\"color: red\">-%.2f</div>", transaction.sum().doubleValue()));
-					    }
-					    out.println(String.format("<div class=\"transaction-date\">%s</div>", date));
-					    out.println("</div>");
-					    out.println("<div class=\"transaction-update\">");
-					    out.println(String.format("<a href=\"%s/wallet/transaction?action=update&id=%d\">%s</a>", path, transaction.id(), updateImg));
-					    out.println("</div >");
-					    out.println(String.format("<form method=\"post\" action=\"wallet/transaction?action=submitDelete&id=%d\" class=\"transaction-remove\">",
-					    transaction.id()));
-					    out.println(String.format("<button type=\"submit\">%s</button>\n", deleteImg));
-					    out.println("</form>");
-					    out.println("</div>");
-					}
-					%>
-
+					<div id="transactions"></div>
+					<button class="button" onclick="loadTransactions(0)">LOAD</button>
 
 				</div>
 			</div>
