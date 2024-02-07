@@ -162,8 +162,8 @@ input[type="date"] {
 .input {
 	display: block;
 	text-align: center;
-	width: 200px;
-	min-width: 100px;
+	width: 300px;
+	min-width: 200px;
 	height: 35px;
 	margin: 5px auto 5px;
 	background: #000;
@@ -188,7 +188,7 @@ select {
 	appearance: none;
 	text-align: center;
 	-webkit-appearance: none;
-	width: 200px;
+	width: 300px;
 	font-size: 20px;
 	min-width: 100px;
 	height: 35px;
@@ -222,8 +222,8 @@ select {
 .button {
 	display: block;
 	text-align: center;
-	width: 200px;
-	min-width: 100px;
+	width: 300px;
+	min-width: 200px;
 	height: 35px;
 	line-height: 30px;
 	margin: 5px auto 5px;
@@ -416,4 +416,20 @@ select {
 .icon {
 	width: 30px;
 	height: 30px;
+	transition-duration: 0.3s;
+}
+
+.icon:hover {
+	transform: scale(1.1);
+}
+
+.show {
+	transition-duration: 0.3s;
+	margin-left: 10px;
+	font-size: 22px;
+	color: #FFF;
+}
+
+.show:hover {
+	transform: scale(1.1);
 }
