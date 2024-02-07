@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import database.DatabaseController;
 import transactions.Transaction;
@@ -41,20 +42,31 @@ public class TransactionServlet extends HttpServlet {
 	    break;
 	case "getTransactions":
 	    HttpSession session = req.getSession();
-	    String count = req.getParameter("count");
+	    int count = Integer.parseInt(req.getParameter("count"));
 	    Wallet wallet = (Wallet) session.getAttribute("wallet");
 	    List<Transaction> transactions;
 
-	    if (count == null || count.equals("0")) {
+	    System.out.println(count);
+	    if (count == 0) {
 		transactions = wallet.getTransactions();
 	    } else {
-		transactions = wallet.getTransactions(new TransactionFilter.Builder().limit(Integer.parseInt(count)).build());
+		transactions = wallet.getTransactions(new TransactionFilter.Builder().limit(count).build());
 	    }
-	    String transactionsJson = this.gson.toJson(transactions);
+
+	    boolean hasMoreTransactions = count < wallet.getTransactionCount() && count != 0;
+
+	    JsonObject jsonObject = new JsonObject();
+
+	    jsonObject.addProperty("hasMoreTransactions", hasMoreTransactions);
+	    jsonObject.add("transactions", this.gson.toJsonTree(transactions));
 
 	    resp.setContentType("application/json");
 	    PrintWriter out = resp.getWriter();
-	    out.print(transactionsJson);
+	    out.print(jsonObject);
+//	    out.print("{");
+//	    out.printf("hasMoreTransactions: %s,\n", hasMoreTransactions);
+//	    out.print("transactions: " + this.gson.toJson(transactions));
+//	    out.print("}");
 	    out.flush();
 	default:
 	    break;

@@ -93,8 +93,8 @@ if (!divider.equals(BigDecimal.ZERO)) {
 						</a>
 					</div>
 					<div id="transactions"></div>
-					<button class="button" onclick="loadTransactions(0)">LOAD</button>
-
+					<button class="show" id="show" style="display: inline-block" onclick="loadTransactions(0)">Еще</button>
+					<button class="show" id="hide" style="display: none" onclick="loadTransactions(5)">Скрыть</button>
 				</div>
 			</div>
 		</div>

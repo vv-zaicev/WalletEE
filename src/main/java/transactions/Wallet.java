@@ -37,6 +37,10 @@ public class Wallet {
 
     }
 
+    public int getTransactionCount() {
+	return transactions.size();
+    }
+
     public BigDecimal getBalance() {
 	return balance;
     }

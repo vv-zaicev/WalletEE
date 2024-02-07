@@ -3,8 +3,23 @@ function loadTransactions(count) {
 		.then(function(response) {
 			return response.json();
 		}).then(function(apiJsonData) {
-			fillTransactions(apiJsonData);
+			fillTransactions(apiJsonData['transactions']);
+			var show = document.getElementById("show");
+			var hide = document.getElementById("hide");
+
+			if (apiJsonData['hasMoreTransactions'] == true) {
+				show.style.display = "inline-block";
+				hide.style.display = "none";
+			} else if (apiJsonData['transactions'].length <= 5){
+				show.style.display = "none";
+				hide.style.display = "none";
+			} else {
+				hide.style.display = "inline-block";
+				show.style.display = "none";
+			}
 		});
+
+
 }
 
 function fillTransactions(apiJsonData) {
