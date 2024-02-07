@@ -17,4 +17,5 @@ services:
       image: vadimzaicev/wallet
       build: .
       ports:
-        - "80:8080"
+       - "80:8080"
+       - "443:8443"

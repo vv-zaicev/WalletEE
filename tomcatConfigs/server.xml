@@ -87,37 +87,26 @@
          Either JSSE or OpenSSL style configuration may be used regardless of
          the SSLImplementation selected. JSSE style configuration is used below.
     -->
-    <!--
-    <Connector port="8443" protocol="org.apache.coyote.http11.Http11NioProtocol"
-               maxThreads="150" SSLEnabled="true"
-               maxParameterCount="1000"
-               >
-        <SSLHostConfig>
-            <Certificate certificateKeystoreFile="conf/localhost-rsa.jks"
-                         type="RSA" />
-        </SSLHostConfig>
-    </Connector>
-    -->
+
+    
+
     <!-- Define an SSL/TLS HTTP/1.1 Connector on port 8443 with HTTP/2
          This connector uses the APR/native implementation which always uses
          OpenSSL for TLS.
          Either JSSE or OpenSSL style configuration may be used. OpenSSL style
          configuration is used below.
     -->
-    <!--
-    <Connector port="8443" protocol="org.apache.coyote.http11.Http11AprProtocol"
+        <Connector port="8443" protocol="org.apache.coyote.http11.Http11NioProtocol"
                maxThreads="150" SSLEnabled="true"
                maxParameterCount="1000"
                >
-        <UpgradeProtocol className="org.apache.coyote.http2.Http2Protocol" />
         <SSLHostConfig>
-            <Certificate certificateKeyFile="conf/localhost-rsa-key.pem"
-                         certificateFile="conf/localhost-rsa-cert.pem"
-                         certificateChainFile="conf/localhost-rsa-chain.pem"
-                         type="RSA" />
+           <Certificate certificateKeyFile="/etc/letsencrypt/live/zvvprojects.ru/privkey.pem"
+                    certificateFile="/etc/letsencrypt/live/zvvprojects.ru/cert.pem"
+                    certificateChainFile="/etc/letsencrypt/live/zvvprojects.ru/chain.pem" />
         </SSLHostConfig>
     </Connector>
-    -->
+
 
     <!-- Define an AJP 1.3 Connector on port 8009 -->
     <!--
