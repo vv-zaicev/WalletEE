@@ -1,0 +1,213 @@
+.transactions {
+	border-radius: 6px;
+	margin: 5px 0 5px;
+	background: #000;
+	padding: 15px 20px;
+	width: 100%;
+}
+
+.transaction {
+	display: flex;
+	color: #FFF;
+	border-radius: 6px;
+	margin: 5px 0;
+	background: #363F46;
+	padding: 0 5px;
+}
+
+.transaction-right {
+	flex: 0 1 10%;
+	display: flex;
+	flex-direction: column;
+	margin: 5px 5px 5px;
+}
+
+.transaction-left {
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	margin: 5px 0 5px 5px;
+}
+
+.transaction-sum {
+	margin: 5px 0;
+}
+
+.transaction-date {
+	margin: 5px 0;
+}
+
+.transaction-des {
+	margin: 5px 0;
+	color: rgba(255, 255, 255, 0.70);
+	font-size: 18px;
+	display: flex;
+	align-items: center;
+	line-height: 100%;
+	padding-left: 5px;
+}
+
+.transaction-cat {
+	font-size: 22px;
+	margin: 5px 0;
+	display: flex;
+	align-items: center;
+	line-height: 100%;
+	padding-left: 5px;
+}
+
+.transaction-update {
+	display: flex;
+	align-items: center;
+	padding: 0 5px;
+}
+
+.transaction-remove {
+	display: flex;
+	align-items: center;
+	padding: 0 5px;
+}
+
+.transaction-create {
+	padding: 0 5px;
+}
+
+.general-statistic {
+	display: flex;
+	flex-wrap: wrap;
+	color: #FFF;
+	margin: 0 -5px;
+}
+
+.general-statistic .col {
+	flex: 1 1 50%;
+	padding: 0 5px;
+	margin: 5px 0;
+	min-width: 500px;
+}
+
+.wallet {
+	width: 100%;
+	height: 100%;
+	min-height: 200px;
+	border-radius: 6px;
+	background: #000;
+	padding: 15px 20px;
+}
+
+.cash-info {
+	border-radius: 6px;
+	background: #000;
+	padding: 15px 20px;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.wallet-info {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.wallet-name {
+	margin: 5px 0;
+	font-size: 40px;
+}
+
+.balance {
+	margin: 5px 0;
+	font-size: 35px;
+}
+
+.cash-parms {
+	display: flex;
+	margin: 5px 0;
+}
+
+.cash-parms .parm {
+	flex: 0 1 90%;
+}
+
+.cash-parms .value {
+	flex: 0 1 10%;
+}
+
+.expenses-bar {
+	height: 30px;
+	background: red;
+	margin: 5px 0;
+}
+
+.income-bar {
+	height: 30px;
+	background: green;
+	margin: 5px 0;
+}
+
+.EXPENSEScolor {
+	color: red;
+}
+
+.INCOMEcolor {
+	color: green;
+}
+
+.red {
+	color: red;
+}
+
+.green {
+	color: green;
+}
+
+.line {
+	width: 100%;
+	height: 2px;
+	background: #363F46;
+	margin: 5px 0;
+}
+
+.tool-bar {
+	display: flex;
+	margin-bottom: 10px;
+	justify-content: flex-end;
+	padding: 0 5px;
+}
+
+.icon {
+	width: 30px;
+	height: 30px;
+	transition-duration: 0.3s;
+}
+
+.icon:hover {
+	transform: scale(1.1);
+}
+
+.show {
+	transition-duration: 0.3s;
+	margin-left: 10px;
+	font-size: 22px;
+	color: #FFF;
+}
+
+.show:hover {
+	transform: scale(1.1);
+}
+
+.down {
+	transform: rotate(180deg);
+}
+
+.filters {
+	color: #FFF;
+	border-radius: 6px;
+	margin: 5px 0;
+	background: #363F46;
+	padding: 0 10px;
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.2s ease-out;
+}

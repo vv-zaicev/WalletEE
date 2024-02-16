@@ -41,6 +41,8 @@ if (!divider.equals(BigDecimal.ZERO)) {
 <title><%=walletName%></title>
 <link href="${pageContext.request.contextPath}/css/mainstyle.css"
 	rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/css/walletview.css"
+	rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/js/WalletView.js">
 	
 </script>
@@ -86,15 +88,24 @@ if (!divider.equals(BigDecimal.ZERO)) {
 
 				<div class="transactions">
 					<div class="tool-bar">
+						<button type="button" class="down" id="collapsible">
+							<img src="${pageContext.request.contextPath}/icons/arrow.svg"
+								alt="arrow" class="icon">
+						</button>
 						<a href="wallet/transaction?action=create"
 							class="transaction-create"> <img
 							src="${pageContext.request.contextPath}/icons/create.svg"
 							alt="create" class="icon">
 						</a>
 					</div>
+					<div class="filters" id="filters">
+						<p>Lorem ipsum...</p>
+					</div>
 					<div id="transactions"></div>
-					<button class="show" id="show" style="display: inline-block" onclick="loadTransactions(0)">Еще</button>
-					<button class="show" id="hide" style="display: none" onclick="loadTransactions(5)">Скрыть</button>
+					<button class="show" id="show" style="display: inline-block"
+						onclick="loadTransactions(0)">Еще</button>
+					<button class="show" id="hide" style="display: none"
+						onclick="loadTransactions(5)">Скрыть</button>
 				</div>
 			</div>
 		</div>

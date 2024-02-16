@@ -10,7 +10,7 @@ function loadTransactions(count) {
 			if (apiJsonData['hasMoreTransactions'] == true) {
 				show.style.display = "inline-block";
 				hide.style.display = "none";
-			} else if (apiJsonData['transactions'].length <= 5){
+			} else if (apiJsonData['transactions'].length <= 5) {
 				show.style.display = "none";
 				hide.style.display = "none";
 			} else {
@@ -131,4 +131,21 @@ Date.prototype.ddmmyyyy = function() {
 	].join('.');
 };
 
-window.onload = loadTransactions(5);
+window.onload = function() {
+	loadTransactions(5);
+	var coll = document.getElementById("collapsible");
+	console.log(coll);
+	coll.addEventListener("click", function() {
+		console.log('click');
+		this.classList.toggle("down");
+		var content = document.getElementById("filters");
+		if (content.style.maxHeight) {
+			content.style.maxHeight = null;
+		} else {
+			content.style.maxHeight = content.scrollHeight + "px";
+		}
+	});
+
+
+};
+
