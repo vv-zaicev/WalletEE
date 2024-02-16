@@ -2,19 +2,25 @@ package transactions.filter;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.function.Predicate;
 
+import transactions.Transaction;
 import transactions.TransactionType;
 
-public class TransactionFilter {
+public class TransactionFilter implements Predicate<Transaction> {
     private Operation<TransactionType> transactionType;
-    private Operation<BigDecimal> sum;
-    private Operation<Calendar> date;
+    private Operation<BigDecimal> minSum;
+    private Operation<BigDecimal> maxSum;
+    private Operation<Calendar> minDate;
+    private Operation<Calendar> maxDate;
     private int limit;
 
     public static class Builder {
 	private Operation<TransactionType> transactionType;
-	private Operation<BigDecimal> sum;
-	private Operation<Calendar> date;
+	private Operation<BigDecimal> minSum;
+	private Operation<BigDecimal> maxSum;
+	private Operation<Calendar> minDate;
+	private Operation<Calendar> maxDate;
 	private int limit = Integer.MAX_VALUE;
 
 	public Builder() {
@@ -26,13 +32,23 @@ public class TransactionFilter {
 	    return this;
 	}
 
-	public Builder sum(Operation<BigDecimal> sum) {
-	    this.sum = sum;
+	public Builder minSum(Operation<BigDecimal> sum) {
+	    this.minSum = sum;
 	    return this;
 	}
 
-	public Builder date(Operation<Calendar> date) {
-	    this.date = date;
+	public Builder maxSum(Operation<BigDecimal> sum) {
+	    this.maxSum = sum;
+	    return this;
+	}
+
+	public Builder minDate(Operation<Calendar> date) {
+	    this.minDate = date;
+	    return this;
+	}
+
+	public Builder maxDate(Operation<Calendar> date) {
+	    this.minDate = date;
 	    return this;
 	}
 
@@ -49,21 +65,51 @@ public class TransactionFilter {
 
     private TransactionFilter(Builder builder) {
 	transactionType = builder.transactionType;
-	sum = builder.sum;
-	date = builder.date;
+	minSum = builder.minSum;
+	maxSum = builder.maxSum;
+	minDate = builder.minDate;
+	maxDate = builder.maxDate;
 	limit = builder.limit;
+    }
+
+    @Override
+    public boolean test(Transaction transaction) {
+	if (transactionType != null && transactionType.check(transaction.type())) {
+	    return false;
+	}
+	if (minDate != null && minDate.check(transaction.calendar())) {
+	    return false;
+	}
+	if (maxDate != null && maxDate.check(transaction.calendar())) {
+	    return false;
+	}
+	if (minSum != null && minSum.check(transaction.sum())) {
+	    return false;
+	}
+	if (maxSum != null && maxSum.check(transaction.sum())) {
+	    return false;
+	}
+	return true;
     }
 
     public Operation<TransactionType> getTransactionType() {
 	return transactionType;
     }
 
-    public Operation<BigDecimal> getSum() {
-	return sum;
+    public Operation<BigDecimal> getMinSum() {
+	return minSum;
     }
 
-    public Operation<Calendar> getDate() {
-	return date;
+    public Operation<BigDecimal> getMaxSum() {
+	return maxSum;
+    }
+
+    public Operation<Calendar> getMinDate() {
+	return minDate;
+    }
+
+    public Operation<Calendar> getMaxDate() {
+	return maxDate;
     }
 
     public int getLimit() {

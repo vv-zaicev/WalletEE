@@ -3,9 +3,6 @@ package transactions;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
-import transactions.filter.Operation;
-import transactions.filter.TransactionFilter;
-
 public class Transaction {
 
     private String description;
@@ -74,21 +71,5 @@ public class Transaction {
 
     public void setId(int id) {
 	this.id = id;
-    }
-
-    public boolean isCorrect(TransactionFilter transactionFilter) {
-	Operation<BigDecimal> sumOperation = transactionFilter.getSum();
-	Operation<Calendar> dateOperation = transactionFilter.getDate();
-	Operation<TransactionType> transactionTypeOperation = transactionFilter.getTransactionType();
-	if (sumOperation != null && sumOperation.check(sum)) {
-	    return false;
-	}
-	if (dateOperation != null && dateOperation.check(calendar)) {
-	    return false;
-	}
-	if (transactionTypeOperation != null && transactionTypeOperation.check(type)) {
-	    return false;
-	}
-	return true;
     }
 }
