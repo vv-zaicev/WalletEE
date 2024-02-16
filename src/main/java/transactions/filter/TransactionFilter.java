@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.function.Predicate;
 
 import transactions.Transaction;
+import transactions.TransactionCategory;
 import transactions.TransactionType;
 
 public class TransactionFilter implements Predicate<Transaction> {
@@ -13,6 +14,7 @@ public class TransactionFilter implements Predicate<Transaction> {
     private Operation<BigDecimal> maxSum;
     private Operation<Calendar> minDate;
     private Operation<Calendar> maxDate;
+    private Operation<TransactionCategory> transactionCat;
     private int limit;
 
     public static class Builder {
@@ -21,6 +23,7 @@ public class TransactionFilter implements Predicate<Transaction> {
 	private Operation<BigDecimal> maxSum;
 	private Operation<Calendar> minDate;
 	private Operation<Calendar> maxDate;
+	private Operation<TransactionCategory> transactionCat;
 	private int limit = Integer.MAX_VALUE;
 
 	public Builder() {
@@ -52,6 +55,11 @@ public class TransactionFilter implements Predicate<Transaction> {
 	    return this;
 	}
 
+	public Builder transactionCat(Operation<TransactionCategory> transactionCat) {
+	    this.transactionCat = transactionCat;
+	    return this;
+	}
+
 	public Builder limit(int limit) {
 	    this.limit = limit;
 	    return this;
@@ -65,6 +73,7 @@ public class TransactionFilter implements Predicate<Transaction> {
 
     private TransactionFilter(Builder builder) {
 	transactionType = builder.transactionType;
+	transactionCat = builder.transactionCat;
 	minSum = builder.minSum;
 	maxSum = builder.maxSum;
 	minDate = builder.minDate;
@@ -75,6 +84,9 @@ public class TransactionFilter implements Predicate<Transaction> {
     @Override
     public boolean test(Transaction transaction) {
 	if (transactionType != null && transactionType.check(transaction.type())) {
+	    return false;
+	}
+	if (transactionCat != null && transactionCat.check(transaction.category())) {
 	    return false;
 	}
 	if (minDate != null && minDate.check(transaction.calendar())) {
