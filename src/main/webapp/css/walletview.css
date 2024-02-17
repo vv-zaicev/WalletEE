@@ -211,3 +211,16 @@
 	overflow: hidden;
 	transition: max-height 0.2s ease-out;
 }
+
+
+.filters-row {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 -5px;
+}
+
+.filters-col {
+	flex: 1 1 50%;
+	padding: 0 5px;
+	min-width: 500px;
+}
