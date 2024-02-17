@@ -44,13 +44,17 @@ public class TransactionServlet extends HttpServlet {
 	    HttpSession session = req.getSession();
 	    int count = Integer.parseInt(req.getParameter("count"));
 	    Wallet wallet = (Wallet) session.getAttribute("wallet");
+	    TransactionFilter filter = (TransactionFilter) session.getAttribute("filter");
+	    if (filter == null) {
+		filter = new TransactionFilter.Builder().build();
+	    }
 	    List<Transaction> transactions;
 
 	    System.out.println(count);
 	    if (count == 0) {
-		transactions = wallet.getTransactions();
+		transactions = wallet.getTransactions(filter);
 	    } else {
-		transactions = wallet.getTransactions(new TransactionFilter.Builder().limit(count).build());
+		transactions = wallet.getTransactions(filter, count);
 	    }
 
 	    boolean hasMoreTransactions = count < wallet.getTransactionCount() && count != 0;
@@ -63,10 +67,6 @@ public class TransactionServlet extends HttpServlet {
 	    resp.setContentType("application/json");
 	    PrintWriter out = resp.getWriter();
 	    out.print(jsonObject);
-//	    out.print("{");
-//	    out.printf("hasMoreTransactions: %s,\n", hasMoreTransactions);
-//	    out.print("transactions: " + this.gson.toJson(transactions));
-//	    out.print("}");
 	    out.flush();
 	default:
 	    break;

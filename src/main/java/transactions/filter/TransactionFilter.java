@@ -15,7 +15,6 @@ public class TransactionFilter implements Predicate<Transaction> {
     private Operation<Calendar> minDate;
     private Operation<Calendar> maxDate;
     private Operation<TransactionCategory> transactionCat;
-    private int limit;
 
     public static class Builder {
 	private Operation<TransactionType> transactionType;
@@ -24,7 +23,6 @@ public class TransactionFilter implements Predicate<Transaction> {
 	private Operation<Calendar> minDate;
 	private Operation<Calendar> maxDate;
 	private Operation<TransactionCategory> transactionCat;
-	private int limit = Integer.MAX_VALUE;
 
 	public Builder() {
 
@@ -60,11 +58,6 @@ public class TransactionFilter implements Predicate<Transaction> {
 	    return this;
 	}
 
-	public Builder limit(int limit) {
-	    this.limit = limit;
-	    return this;
-	}
-
 	public TransactionFilter build() {
 	    return new TransactionFilter(this);
 	}
@@ -78,7 +71,6 @@ public class TransactionFilter implements Predicate<Transaction> {
 	maxSum = builder.maxSum;
 	minDate = builder.minDate;
 	maxDate = builder.maxDate;
-	limit = builder.limit;
     }
 
     @Override
@@ -122,10 +114,6 @@ public class TransactionFilter implements Predicate<Transaction> {
 
     public Operation<Calendar> getMaxDate() {
 	return maxDate;
-    }
-
-    public int getLimit() {
-	return limit;
     }
 
 }
