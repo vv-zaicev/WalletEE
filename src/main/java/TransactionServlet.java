@@ -50,14 +50,13 @@ public class TransactionServlet extends HttpServlet {
 	    }
 	    List<Transaction> transactions;
 
-	    System.out.println(count);
+	    boolean hasMoreTransactions = false;
 	    if (count == 0) {
 		transactions = wallet.getTransactions(filter);
 	    } else {
 		transactions = wallet.getTransactions(filter, count);
+		hasMoreTransactions = wallet.getTransactions(filter).size() > transactions.size();
 	    }
-
-	    boolean hasMoreTransactions = count < wallet.getTransactionCount() && count != 0;
 
 	    JsonObject jsonObject = new JsonObject();
 
