@@ -94,9 +94,9 @@ if (!divider.equals(BigDecimal.ZERO)) {
 					<div class="transactions">
 						<div class="tool-bar">
 							<button type="button" class="down" id="collapsible">
-								<svg fill="#FFF" width="30px" height="30px" viewBox="0 0 56 56"
+								<svg fill="#FFF" width="30px" height="30px" viewBox="0 0 56 56" class="icon"
 									<%if (filter != null) {
-    									out.println("class='blue'");
+    									out.println("style='fill: #118DA8;'");
 									}%>
 									xmlns="http://www.w3.org/2000/svg">
 								<path
@@ -115,7 +115,8 @@ if (!divider.equals(BigDecimal.ZERO)) {
 									<div class="selectTransactionType">
 										<select name="type" id="selectTransactionType"
 											onchange="changeTransactionType(this)">
-											<option disabled selected hidden>Тип</option>
+											<option disabled selected hidden id="placeholderType">Тип</option>
+											<option id="nullType"></option>
 											<option value="INCOME" class="green">Доход</option>
 											<option value="EXPENSES" class="red">Расход</option>
 										</select>
@@ -124,8 +125,9 @@ if (!divider.equals(BigDecimal.ZERO)) {
 								<div class="filters-col">
 									<div class="selectTransactionCategory">
 
-										<select name="category" id="selectTransactionCategory">
-											<option disabled selected hidden>Категория</option>
+										<select name="category" id="selectTransactionCategory" onchange="changeTransactionCat(this)">
+											<option disabled selected hidden id="placeholderCat">Категория</option>
+											<option id="nullCat"></option>
 											<%
 											CachedRowSet transactionCategoryInfo = db.getTransactionCategoriesInfo();
 											while (transactionCategoryInfo.next()) {
