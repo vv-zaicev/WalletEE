@@ -220,7 +220,23 @@
 }
 
 .filters-col {
+	display: flex;
+	justify-content: right;
 	flex: 1 1 50%;
 	padding: 0 5px;
 	min-width: 500px;
+}
+
+.min-width {
+	min-width: 100px;
+	margin: 5px 0;
+}
+
+.filters .input{
+	margin: 5px 0;
+	display: inline-block;
+}
+
+.filters .button {
+	margin: 5px 0;
 }

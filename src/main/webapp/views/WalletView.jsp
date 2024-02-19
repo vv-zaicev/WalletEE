@@ -113,7 +113,8 @@ if (!divider.equals(BigDecimal.ZERO)) {
 							class="filters" id="filters">
 							<div class="filters-row">
 								<div class="filters-col">
-									<div class="selectTransactionType">
+									<div class="min-width">
+										<label for="selectTransactionType">Тип</label>
 										<select name="type" id="selectTransactionType"
 											onchange="changeTransactionType(this)">
 											<option disabled selected hidden id="placeholderType">Тип</option>
@@ -128,8 +129,8 @@ if (!divider.equals(BigDecimal.ZERO)) {
 									</div>
 								</div>
 								<div class="filters-col">
-									<div class="selectTransactionCategory">
-
+									<div class="min-width">
+										<label for="selectTransactionCategory">Категория</label>
 										<select name="category" id="selectTransactionCategory" onchange="changeTransactionCat(this)">
 											<option disabled selected hidden id="placeholderCat">Категория</option>
 											<option id="nullCat"></option>
@@ -152,36 +153,48 @@ if (!divider.equals(BigDecimal.ZERO)) {
 							</div>
 							<div class="filters-row">
 								<div class="filters-col">
-									<input type="number" step="0.01" name="minSum"
-										placeholder="Мин" class="input"
-										<%if(filter != null && filter.getMinSum() != null) {
-										    out.print(String.format("value='%s'", filter.getMinSum())); 
-										}						    
-										%>>
+									<div class="temp">
+										<label for="minSum">Минимальная сумма</label>
+										<input type="number" step="0.01" name="minSum" id="minSum"
+											placeholder="Мин" class="input"
+											<%if(filter != null && filter.getMinSum() != null) {
+											    out.print(String.format("value='%s'", filter.getMinSum())); 
+											}						    
+											%>>
+									</div>
 								</div>
 								<div class="filters-col">
-									<input type="number" step="0.01" name="maxSum"
-										placeholder="Макс" class="input" 
-										<%if(filter != null && filter.getMaxSum() != null) {
-										    out.print(String.format("value='%s'", filter.getMaxSum())); 
-										}						    
-										%>>
+									<div class="temp">
+										<label for="maxSum">Максимальная сумма</label>
+										<input type="number" step="0.01" name="maxSum" id="maxSum"
+											placeholder="Макс" class="input" 
+											<%if(filter != null && filter.getMaxSum() != null) {
+											    out.print(String.format("value='%s'", filter.getMaxSum())); 
+											}						    
+											%>>
+									</div>
 								</div>
 							</div>
 							<div class="filters-row">
 								<div class="filters-col">
-									<input type="date" name="minDate" placeholder="От"
-										class="input" 
-										<%if(filter != null && filter.getMinDate() != null){
-										    out.print(String.format("value='%s'", dateFormat.format(filter.getMinDate().getTime())));	   
-										} %>>
+									<div class="temp">
+										<label for="minDate">Начальная дата</label>
+										<input type="date" name="minDate" id="minDate" placeholder="От"
+											class="input" 
+											<%if(filter != null && filter.getMinDate() != null){
+											    out.print(String.format("value='%s'", dateFormat.format(filter.getMinDate().getTime())));	   
+											} %>>
+									</div>
 								</div>
 								<div class="filters-col">
-									<input type="date" name="maxDate" placeholder="До"
-										class="input"
-										<%if(filter != null && filter.getMaxDate() != null){
-										    out.print(String.format("value='%s'", dateFormat.format(filter.getMaxDate().getTime())));	   
-										} %>>
+									<div class="temp">
+										<label for="maxDate">Конечная дата</label>
+										<input type="date" name="maxDate" id="maxDate" placeholder="До"
+											class="input"
+											<%if(filter != null && filter.getMaxDate() != null){
+											    out.print(String.format("value='%s'", dateFormat.format(filter.getMaxDate().getTime())));	   
+											} %>>
+									</div>
 								</div>
 							</div>
 							<div class="filters-row">
