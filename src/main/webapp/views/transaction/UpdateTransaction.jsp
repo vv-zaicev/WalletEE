@@ -62,8 +62,13 @@ Transaction transaction = wallet.getTransaction(id);
 				<input type="number" step="0.01" name="sum"
 					value="<%=transaction.sum()%>" placeholder="<%=transaction.sum()%>"
 					class="input" required> <input type="text" name="description"
-					value="<%=transaction.description()%>"
-					placeholder="<%=transaction.description()%>" class="input">
+					<% if(transaction.description() != null && transaction.description().length() > 0) {
+					    out.print(String.format("value='%s' ", transaction.description()));
+					    out.print(String.format("placeholder='%s' ", transaction.description()));
+					} else {
+					    out.print("placeholder='Описание' ");
+					}
+					%> class="input">
 				<input type="date" name="calendar"
 					value="<%=dateFormat.format(transaction.calendar().getTime())%>"
 					class="input" required>
