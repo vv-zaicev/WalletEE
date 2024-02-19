@@ -10,7 +10,8 @@ public class Operation<T extends Comparable<T>> {
     }
 
     public boolean check(T checkedValue) {
-	return checkedValue.compareTo(value) != compareType.getResult();
+	int result = checkedValue.compareTo(value);
+	return result != compareType.getResult() && result != 0;
     }
 
     public T getValue() {
