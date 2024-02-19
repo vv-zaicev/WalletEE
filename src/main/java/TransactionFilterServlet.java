@@ -60,7 +60,7 @@ public class TransactionFilterServlet extends HttpServlet {
 		builder.minSum(new Operation<BigDecimal>(CompareType.MORE, new BigDecimal(minSumStr)));
 	    }
 	    if (maxSumStr != null && maxSumStr.length() > 0) {
-		builder.minSum(new Operation<BigDecimal>(CompareType.LESS, new BigDecimal(maxSumStr)));
+		builder.maxSum(new Operation<BigDecimal>(CompareType.LESS, new BigDecimal(maxSumStr)));
 	    }
 	    if (minDateStr != null && minDateStr.length() > 0) {
 		Calendar minDate = GregorianCalendar.getInstance();
