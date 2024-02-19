@@ -13,4 +13,8 @@ public class Operation<T extends Comparable<T>> {
 	return checkedValue.compareTo(value) != compareType.getResult();
     }
 
+    public T getValue() {
+	return value;
+    }
+
 }

@@ -22,6 +22,7 @@
 String path = request.getContextPath();
 String updateImg = String.format("<img src=\"%s/icons/update.svg\" alt=\"update\" class=\"icon\">", path);
 String deleteImg = String.format("<img src=\"%s/icons/delete.svg\" alt=\"delete\" class=\"icon\">", path);
+DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 DatabaseController db = (DatabaseController) session.getAttribute("db");
 TransactionFilter filter = (TransactionFilter) session.getAttribute("filter");
@@ -117,8 +118,12 @@ if (!divider.equals(BigDecimal.ZERO)) {
 											onchange="changeTransactionType(this)">
 											<option disabled selected hidden id="placeholderType">Тип</option>
 											<option id="nullType"></option>
-											<option value="INCOME" class="green">Доход</option>
-											<option value="EXPENSES" class="red">Расход</option>
+											<option value="INCOME" class="green" 
+											<%if (filter != null && filter.getTransactionType() == TransactionType.INCOME)
+    											out.print("selected");%>>Доход</option>
+											<option value="EXPENSES" class="red"
+											<%if (filter != null && filter.getTransactionType() == TransactionType.EXPENSES)
+    											out.print("selected");%>>Расход</option>
 										</select>
 									</div>
 								</div>
@@ -134,7 +139,11 @@ if (!divider.equals(BigDecimal.ZERO)) {
 											    String name = transactionCategoryInfo.getString("TransactionCategoryName");
 											    String transactionTypeName = transactionCategoryInfo.getString("TransactionTypeName");
 											    int transactionCategoryId = transactionCategoryInfo.getInt("Id");
-											    out.println(String.format("<option value=\"%d\" id=\"%sType\">%s</option>", transactionCategoryId, transactionTypeName, name));
+											    if (filter != null && filter.getTransactionCat() != null && filter.getTransactionCat().id() == transactionCategoryId) {
+												out.println(String.format("<option value=\"%d\" id=\"%sType\" selected>%s</option>", transactionCategoryId, transactionTypeName, name));
+											    } else {
+												out.println(String.format("<option value=\"%d\" id=\"%sType\">%s</option>", transactionCategoryId, transactionTypeName, name));
+											    }
 											}
 											%>
 										</select>
@@ -144,21 +153,35 @@ if (!divider.equals(BigDecimal.ZERO)) {
 							<div class="filters-row">
 								<div class="filters-col">
 									<input type="number" step="0.01" name="minSum"
-										placeholder="Мин" class="input">
+										placeholder="Мин" class="input"
+										<%if(filter != null && filter.getMinSum() != null) {
+										    out.print(String.format("value='%s'", filter.getMinSum())); 
+										}						    
+										%>>
 								</div>
 								<div class="filters-col">
 									<input type="number" step="0.01" name="maxSum"
-										placeholder="Макс" class="input">
+										placeholder="Макс" class="input" 
+										<%if(filter != null && filter.getMaxSum() != null) {
+										    out.print(String.format("value='%s'", filter.getMaxSum())); 
+										}						    
+										%>>
 								</div>
 							</div>
 							<div class="filters-row">
 								<div class="filters-col">
 									<input type="date" name="minDate" placeholder="От"
-										class="input">
+										class="input" 
+										<%if(filter != null && filter.getMinDate() != null){
+										    out.print(String.format("value='%s'", dateFormat.format(filter.getMinDate().getTime())));	   
+										} %>>
 								</div>
 								<div class="filters-col">
 									<input type="date" name="maxDate" placeholder="До"
-										class="input">
+										class="input"
+										<%if(filter != null && filter.getMaxDate() != null){
+										    out.print(String.format("value='%s'", dateFormat.format(filter.getMaxDate().getTime())));	   
+										} %>>
 								</div>
 							</div>
 							<div class="filters-row">

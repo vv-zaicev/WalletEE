@@ -49,7 +49,7 @@ public class TransactionFilter implements Predicate<Transaction> {
 	}
 
 	public Builder maxDate(Operation<Calendar> date) {
-	    this.minDate = date;
+	    this.maxDate = date;
 	    return this;
 	}
 
@@ -96,24 +96,46 @@ public class TransactionFilter implements Predicate<Transaction> {
 	return true;
     }
 
-    public Operation<TransactionType> getTransactionType() {
-	return transactionType;
+    public TransactionType getTransactionType() {
+	if (transactionType == null) {
+	    return null;
+	}
+	return transactionType.getValue();
     }
 
-    public Operation<BigDecimal> getMinSum() {
-	return minSum;
+    public TransactionCategory getTransactionCat() {
+	if (transactionCat == null) {
+	    return null;
+	}
+	return transactionCat.getValue();
     }
 
-    public Operation<BigDecimal> getMaxSum() {
-	return maxSum;
+    public BigDecimal getMinSum() {
+	if (minSum == null) {
+	    return null;
+	}
+	return minSum.getValue();
     }
 
-    public Operation<Calendar> getMinDate() {
-	return minDate;
+    public BigDecimal getMaxSum() {
+	if (maxSum == null) {
+	    return null;
+	}
+	return maxSum.getValue();
     }
 
-    public Operation<Calendar> getMaxDate() {
-	return maxDate;
+    public Calendar getMinDate() {
+	if (minDate == null) {
+	    return null;
+	}
+	return minDate.getValue();
+    }
+
+    public Calendar getMaxDate() {
+	if (maxDate == null) {
+	    return null;
+	}
+	return maxDate.getValue();
     }
 
 }
