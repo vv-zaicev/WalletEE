@@ -18,7 +18,7 @@
 
 				<input name="login" type="text" placeholder="Логин" class="input">
 
-				<input name="pass" type="text" placeholder="Пароль" class="input">
+				<input name="pass" type="password" placeholder="Пароль" class="input">
 
 				<button type="submit" class="button">Авторизация</button>
 
