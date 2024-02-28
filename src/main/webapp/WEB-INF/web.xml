@@ -27,6 +27,14 @@
 		<servlet-name>AuthorizationServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>LogOutServlet</servlet-name>
+		<servlet-class>LogOutServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LogOutServlet</servlet-name>
+		<url-pattern>/logout</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>TransactionServlet</servlet-name>
@@ -53,7 +61,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Authorization</servlet-name>
-		<url-pattern>/authorization</url-pattern>
+		<url-pattern>/authorization-page</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -92,6 +100,24 @@
 		<url-pattern>/wallet/transaction/create</url-pattern>
 	</servlet-mapping>
 
-
-
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/authorization-page</form-login-page>
+			<form-error-page>/authorization-page</form-error-page>
+		</form-login-config>
+	</login-config>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>SecureWallet</web-resource-name>
+			<url-pattern>/wallet*</url-pattern>
+			<url-pattern>/choice</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>admin</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-role>
+		<role-name>admin</role-name>
+	</security-role>
 </web-app>

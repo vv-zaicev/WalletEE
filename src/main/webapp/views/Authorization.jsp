@@ -6,21 +6,21 @@
 <title>Авторизация</title>
 </head>
 <body>
-	<div class="wrapper">
+	<div class="wrapper jcc">
 		<div class="container jcc">
-			<form method="post" action="/" class="authorization">
+			<form method="post" action="j_security_check" class="authorization">
 				<%
-				boolean succes = (boolean) request.getAttribute("succes");
-				if (!succes) {
+				Object succes = request.getAttribute("succes");
+				if (succes != null && !(boolean) succes) {
 				    out.println("<p>Не удалось авторизоваться</p>");
 				}
 				%>
 
-				<input name="login" type="text" placeholder="Логин" class="input">
+				<input name="j_username" type="text" placeholder="Логин" class="input">
 
-				<input name="pass" type="password" placeholder="Пароль" class="input">
+				<input name="j_password" type="password" placeholder="Пароль" class="input">
 
-				<button type="submit" class="button">Авторизация</button>
+				<button type="submit" class="button" value="login">Авторизация</button>
 
 			</form>
 		</div>

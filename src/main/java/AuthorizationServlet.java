@@ -24,7 +24,8 @@ public class AuthorizationServlet extends HttpServlet {
 	Optional<String> login = readCookie(req, "login");
 	if (pass.isEmpty() || login.isEmpty()) {
 	    req.setAttribute("succes", true);
-	    req.getRequestDispatcher("/authorization").forward(req, resp);
+	    resp.sendRedirect(req.getContextPath() + "/choice");
+	    // req.getRequestDispatcher("/choice").forward(req, resp);
 	}
 
     }
@@ -44,7 +45,7 @@ public class AuthorizationServlet extends HttpServlet {
 	    req.setAttribute("succes", false);
 	    System.out.println("ERROR");
 	    System.out.println(e.getMessage());
-	    req.getRequestDispatcher("/authorization").forward(req, resp);
+	    req.getRequestDispatcher("/authorization-page").forward(req, resp);
 	}
 
     }
