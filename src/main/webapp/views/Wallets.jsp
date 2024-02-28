@@ -10,7 +10,7 @@
 	rel="stylesheet" type="text/css">
 </head>
 <body>
-	<div class="wrapper">
+	<div class="wrapper jcc">
 		<div class="container jcc">
 
 			<div class="wallets">

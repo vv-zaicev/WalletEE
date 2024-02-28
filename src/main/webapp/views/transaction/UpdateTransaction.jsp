@@ -26,7 +26,7 @@ Transaction transaction = wallet.getTransaction(id);
 </script>
 </head>
 <body>
-	<div class="wrapper">
+	<div class="wrapper jcc">
 		<div class="container jcc">
 			<form method="post"
 				action="transaction?action=submitUpdate&id=<%=id%>" class="update">

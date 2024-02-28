@@ -18,7 +18,7 @@ DatabaseController db = (DatabaseController) session.getAttribute("db");
 <title>Запись</title>
 </head>
 <body>
-	<div class="wrapper">
+	<div class="wrapper jcc">
 		<div class="container jcc">
 			<form method="post" action="transaction?action=submitCreate"
 				class="update">
