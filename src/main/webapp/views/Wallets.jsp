@@ -16,7 +16,9 @@
 			<div class="wallets">
 				<p class=>Доступные кошельки</p>
 				<%
-				DatabaseController db = (DatabaseController) session.getAttribute("db");
+				DatabaseController db = new DatabaseController();
+				session.setAttribute("db", db);
+				
 				String path = request.getContextPath();
 				for (String walletName : db.getWalletNames()) {
 				    out.println(String.format("<a href=\"%s/wallet?name=%s\" class=\"button\">%s</a>", path, walletName, walletName));

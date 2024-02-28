@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import database.DatabaseController;
-
 public class AuthorizationServlet extends HttpServlet {
 
     @Override
@@ -25,27 +23,6 @@ public class AuthorizationServlet extends HttpServlet {
 	if (pass.isEmpty() || login.isEmpty()) {
 	    req.setAttribute("succes", true);
 	    resp.sendRedirect(req.getContextPath() + "/choice");
-	    // req.getRequestDispatcher("/choice").forward(req, resp);
-	}
-
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	try {
-	    String login = req.getParameter("login");
-	    String pass = req.getParameter("pass");
-	    DatabaseController db = new DatabaseController(login, pass);
-	    HttpSession session = req.getSession();
-	    session.setAttribute("db", db);
-	    System.out.println("access");
-	    resp.sendRedirect(req.getContextPath() + "/choice");
-
-	} catch (Exception e) {
-	    req.setAttribute("succes", false);
-	    System.out.println("ERROR");
-	    System.out.println(e.getMessage());
-	    req.getRequestDispatcher("/authorization-page").forward(req, resp);
 	}
 
     }

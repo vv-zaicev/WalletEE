@@ -11,7 +11,7 @@ services:
       command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
       volumes:
        - ./src/main/db:/docker-entrypoint-initdb.d 
-       - /data/:/var/lib/mysql
+       - ./data/:/var/lib/mysql
     web:
       container_name: tomcat
       image: vadimzaicev/wallet
@@ -19,3 +19,5 @@ services:
       ports:
        - "80:8080"
        - "443:8443"
+      environment:
+       MYSQL_ROOT_PASSWORD: root

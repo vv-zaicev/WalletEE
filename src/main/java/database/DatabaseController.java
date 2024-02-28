@@ -27,14 +27,14 @@ public class DatabaseController implements AutoCloseable {
     private Connection connection;
     private ResultSet currentWallet;
 
-    public DatabaseController(String username, String password) throws SQLException {
+    public DatabaseController() throws SQLException {
 
 	try {
 	    Class.forName("com.mysql.cj.jdbc.Driver");
 	} catch (ClassNotFoundException e) {
 	    System.out.println("Class not found " + e);
 	}
-	connection = DriverManager.getConnection(HOST, username, password);
+	connection = DriverManager.getConnection(HOST, "root", System.getenv("MYSQL_ROOT_PASSWORD"));
 
     }
 
