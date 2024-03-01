@@ -25,7 +25,7 @@ import transactions.Wallet;
 public class DatabaseController implements AutoCloseable {
     private static final String HOST = "jdbc:mysql://database:3306/wallets?useUnicode=true&characterEncoding=UTF-8";
     private Connection connection;
-    private ResultSet currentWallet;
+    private static int numberMonths = 1;
 
     public DatabaseController() throws SQLException {
 
@@ -38,52 +38,52 @@ public class DatabaseController implements AutoCloseable {
 
     }
 
-    public boolean setCurrentWallet(String name) {
+    private ResultSet getCurrentWallet(int id) {
 	try {
 	    PreparedStatement walletStatement = connection.prepareStatement(SQLCommands.SELECT_WALLET, ResultSet.TYPE_SCROLL_INSENSITIVE,
 		    ResultSet.CONCUR_UPDATABLE);
-	    walletStatement.setString(1, name);
-	    ResultSet wallet = walletStatement.executeQuery();
-
-	    currentWallet = wallet;
+	    walletStatement.setInt(1, id);
+	    ResultSet currentWallet = walletStatement.executeQuery();
 
 	    currentWallet.first();
 
-	    return true;
+	    return currentWallet;
 	} catch (SQLException e) {
 	    e.printStackTrace();
-	    return false;
+	    return null;
 	}
     }
 
-    public Wallet getWallet(int numberMonths) {
-	CachedRowSet transactionsInfo = getTransactionsInfo(numberMonths);
-	CachedRowSet walletInfo = getWalletInfo();
+    public Wallet getWallet(int id) {
+	ResultSet currentWallet = getCurrentWallet(id);
+	CachedRowSet transactionsInfo = getTransactionsInfo(currentWallet, numberMonths);
+	CachedRowSet walletInfo = getWalletInfo(currentWallet);
 	return new Wallet(walletInfo, transactionsInfo);
     }
 
-    public List<String> getWalletNames() {
-	List<String> walletNames = new ArrayList<String>();
+    public List<Wallet> getWallets() {
+	List<Wallet> wallets = new ArrayList<Wallet>();
 	try {
 	    Statement selectWalletStatement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-	    ResultSet wallets = selectWalletStatement.executeQuery(SQLCommands.SELECT_WALLET_NAMES);
+	    ResultSet walletsInfo = selectWalletStatement.executeQuery(SQLCommands.SELECT_WALLETS);
 
-	    while (wallets.next()) {
-		walletNames.add(wallets.getString("WalletName"));
+	    while (walletsInfo.next()) {
+		CachedRowSet walletInfo = getWalletInfo(getCurrentWallet(walletsInfo.getInt("Id")));
+		wallets.add(new Wallet(walletInfo));
 	    }
 
-	    return walletNames;
+	    return wallets;
 	} catch (SQLException e) {
 	    e.printStackTrace();
-	    return walletNames;
+	    return wallets;
 	}
 
     }
 
-    private CachedRowSet getTransactionsInfo(int NumberMonths) {
+    private CachedRowSet getTransactionsInfo(ResultSet currentWallet, int NumberMonths) {
 
 	try {
-	    int idWallet = currentWallet.getInt("id");
+	    int idWallet = currentWallet.getInt("Id");
 	    Calendar startTime = GregorianCalendar.getInstance();
 	    startTime.add(Calendar.MONTH, -NumberMonths);
 
@@ -111,7 +111,7 @@ public class DatabaseController implements AutoCloseable {
 
     }
 
-    private CachedRowSet getWalletInfo() {
+    private CachedRowSet getWalletInfo(ResultSet currentWallet) {
 	try {
 	    currentWallet.absolute(0);
 	    CachedRowSet walletInfo = cacheResultSet(currentWallet);
@@ -124,7 +124,7 @@ public class DatabaseController implements AutoCloseable {
 
     }
 
-    public boolean addTransaction(Transaction transaction) {
+    public boolean addTransaction(int walletId, Transaction transaction) {
 	try {
 	    PreparedStatement addTransactionsStatement = connection.prepareStatement(SQLCommands.INSERT_TRANSACTION, Statement.RETURN_GENERATED_KEYS);
 	    connection.setAutoCommit(false);
@@ -134,9 +134,9 @@ public class DatabaseController implements AutoCloseable {
 	    addTransactionsStatement.setDate(3, new java.sql.Date(transaction.calendar().getTimeInMillis()));
 	    addTransactionsStatement.setInt(4, getIdTransactionType(transaction.type()));
 	    addTransactionsStatement.setInt(5, transaction.category().id());
-	    addTransactionsStatement.setInt(6, currentWallet.getInt("Id"));
+	    addTransactionsStatement.setInt(6, walletId);
 	    addTransactionsStatement.executeUpdate();
-	    changeBalance(transaction.sum(), transaction.type() == TransactionType.INCOME);
+	    changeBalance(walletId, transaction.sum(), transaction.type() == TransactionType.INCOME);
 
 	    try (ResultSet generatedKeys = addTransactionsStatement.getGeneratedKeys()) {
 		if (generatedKeys.next()) {
@@ -158,14 +158,14 @@ public class DatabaseController implements AutoCloseable {
 
     }
 
-    public boolean updateTransaction(Transaction transaction) {
+    public boolean updateTransaction(int walletId, Transaction transaction) {
 	CachedRowSet currentTransaction = getTransactionInfo(transaction.id());
 	try {
 	    connection.setAutoCommit(false);
 
 	    BigDecimal currentSum = currentTransaction.getBigDecimal("Sum");
 	    TransactionType type = TransactionType.valueOf(currentTransaction.getString("TransactionTypeName").toUpperCase());
-	    changeBalance(currentSum, !(type == TransactionType.INCOME));
+	    changeBalance(walletId, currentSum, !(type == TransactionType.INCOME));
 	    PreparedStatement updateTransactionsStatement = connection.prepareStatement(SQLCommands.UPDATE_TRANSACTION);
 
 	    updateTransactionsStatement.setString(1, transaction.description());
@@ -176,7 +176,7 @@ public class DatabaseController implements AutoCloseable {
 	    updateTransactionsStatement.setInt(6, transaction.id());
 	    updateTransactionsStatement.executeUpdate();
 
-	    changeBalance(transaction.sum(), transaction.type() == TransactionType.INCOME);
+	    changeBalance(walletId, transaction.sum(), transaction.type() == TransactionType.INCOME);
 
 	    connection.commit();
 	    return true;
@@ -192,11 +192,11 @@ public class DatabaseController implements AutoCloseable {
 
     }
 
-    public boolean removeTransaction(Transaction transaction) {
+    public boolean removeTransaction(int walletId, Transaction transaction) {
 	try {
 	    connection.setAutoCommit(false);
 
-	    changeBalance(transaction.sum(), !(transaction.type() == TransactionType.INCOME));
+	    changeBalance(walletId, transaction.sum(), !(transaction.type() == TransactionType.INCOME));
 	    PreparedStatement updateTransactionsStatement = connection.prepareStatement(SQLCommands.DELETE_TRANSACTION);
 	    updateTransactionsStatement.setInt(1, transaction.id());
 	    updateTransactionsStatement.executeUpdate();
@@ -214,7 +214,8 @@ public class DatabaseController implements AutoCloseable {
 	}
     }
 
-    private void changeBalance(BigDecimal sum, boolean isPositive) throws SQLException {
+    private void changeBalance(int walletId, BigDecimal sum, boolean isPositive) throws SQLException {
+	ResultSet currentWallet = getCurrentWallet(walletId);
 	BigDecimal currentBalance = currentWallet.getBigDecimal("Balance");
 
 	if (!isPositive) {

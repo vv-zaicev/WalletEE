@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -105,7 +104,7 @@ public class TransactionServlet extends HttpServlet {
 	    transaction.setCategory(db.getTransactionCategory(categoryId));
 
 	    wallet.addTransaction(transaction);
-	    db.updateTransaction(transaction);
+	    db.updateTransaction(wallet.getId(), transaction);
 	}
 
 	if (action.equals("submitCreate")) {
@@ -123,16 +122,16 @@ public class TransactionServlet extends HttpServlet {
 	    TransactionCategory category = db.getTransactionCategory(categoryId);
 
 	    Transaction newTransaction = new Transaction(desc, sum, type, calendar, category);
-	    db.addTransaction(newTransaction);
+	    db.addTransaction(wallet.getId(), newTransaction);
 	    wallet.addTransaction(newTransaction);
 	}
 
 	if (action.equals("submitDelete")) {
 	    wallet.removeTransaction(transaction);
-	    db.removeTransaction(transaction);
+	    db.removeTransaction(wallet.getId(), transaction);
 	}
 
-	String path = String.format("%s/wallet?name=%s", req.getContextPath(), URLEncoder.encode(wallet.getWalletName(), "UTF-8"));
+	String path = String.format("%s/wallet?id=%d", req.getContextPath(), wallet.getId());
 	resp.sendRedirect(path);
     }
 

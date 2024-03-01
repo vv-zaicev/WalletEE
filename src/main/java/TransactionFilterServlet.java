@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -88,7 +87,7 @@ public class TransactionFilterServlet extends HttpServlet {
 	    session.removeAttribute("filter");
 	}
 
-	String path = String.format("%s/wallet?name=%s", req.getContextPath(), URLEncoder.encode(wallet.getWalletName(), "UTF-8"));
+	String path = String.format("%s/wallet?id=%d", req.getContextPath(), wallet.getId());
 	resp.sendRedirect(path);
     }
 

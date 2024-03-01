@@ -26,9 +26,8 @@ DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 DatabaseController db = (DatabaseController) session.getAttribute("db");
 TransactionFilter filter = (TransactionFilter) session.getAttribute("filter");
-String walletName = request.getParameter("name");
-db.setCurrentWallet(walletName);
-Wallet wallet = db.getWallet(1);
+int walletId = Integer.parseInt(request.getParameter("id"));
+Wallet wallet = db.getWallet(walletId);
 session.setAttribute("wallet", wallet);
 
 BigDecimal divider = wallet.getIncome().max(wallet.getExpenses());
@@ -42,7 +41,7 @@ if (!divider.equals(BigDecimal.ZERO)) {
 	expensesPercent = new BigDecimal(100);
 }
 %>
-<title><%=walletName%></title>
+<title><%=wallet.getName()%></title>
 <link href="${pageContext.request.contextPath}/css/mainstyle.css"
 	rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/css/walletview.css"
@@ -61,7 +60,7 @@ if (!divider.equals(BigDecimal.ZERO)) {
 						<div class="col">
 							<div class="wallet">
 								<div class="wallet-info">
-									<div class="wallet-name"><%=wallet.getWalletName()%></div>
+									<div class="wallet-name"><%=wallet.getName()%></div>
 									<div class="balance">
 										Баланс:<%=String.format("%.2f", wallet.getBalance().doubleValue())%></div>
 								</div>

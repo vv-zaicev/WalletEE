@@ -19,22 +19,40 @@ public class Wallet {
     private BigDecimal balance;
     private BigDecimal income;
     private BigDecimal expenses;
-    private String walletName;
+    private String name;
+    private int id;
 
     public Wallet(CachedRowSet walletInfo, CachedRowSet transactionsInfo) {
+	this(walletInfo);
+	try {
+	    fillTransactions(transactionsInfo);
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	}
+
+    }
+
+    public Wallet(CachedRowSet walletInfo) {
 	transactions = new ArrayList<Transaction>();
 	balance = new BigDecimal(0);
 	income = new BigDecimal(0);
 	expenses = new BigDecimal(0);
 	try {
 	    walletInfo.first();
-	    this.walletName = walletInfo.getString("WalletName");
+	    this.name = walletInfo.getString("WalletName");
 	    this.balance = walletInfo.getBigDecimal("balance");
-	    fillTransactions(transactionsInfo);
+	    this.id = walletInfo.getInt("Id");
 	} catch (SQLException e) {
 	    e.printStackTrace();
 	}
+    }
 
+    public int getId() {
+	return id;
+    }
+
+    public void setId(int id) {
+	this.id = id;
     }
 
     public int getTransactionCount() {
@@ -53,8 +71,8 @@ public class Wallet {
 	return expenses;
     }
 
-    public String getWalletName() {
-	return walletName;
+    public String getName() {
+	return name;
     }
 
     public void fillTransactions(CachedRowSet transactionsInfo) throws SQLException {
@@ -90,7 +108,6 @@ public class Wallet {
     private void changeSums() {
 	income = transactions.stream().filter(x -> x.type() == TransactionType.INCOME).map(x -> x.sum()).reduce(BigDecimal.ZERO, BigDecimal::add);
 	expenses = transactions.stream().filter(x -> x.type() == TransactionType.EXPENSES).map(x -> x.sum()).reduce(BigDecimal.ZERO, BigDecimal::add);
-
     }
 
     private void changeBalance(Transaction transaction, Predicate<TransactionType> predicate) {
@@ -103,10 +120,6 @@ public class Wallet {
 
     public void setBalance(BigDecimal balance) {
 	this.balance = balance;
-    }
-
-    public void displayWalletName() {
-	System.out.println(walletName);
     }
 
     public Transaction getTransaction(int id) {
