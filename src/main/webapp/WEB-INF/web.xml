@@ -36,14 +36,7 @@
 		<url-pattern>/logout</url-pattern>
 	</servlet-mapping>
 
-	<servlet>
-		<servlet-name>TransactionServlet</servlet-name>
-		<servlet-class>TransactionServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>TransactionServlet</servlet-name>
-		<url-pattern>/wallet/transaction</url-pattern>
-	</servlet-mapping>
+
 
 	<servlet>
 		<servlet-name>TransactionFilterServlet</servlet-name>
@@ -81,7 +74,25 @@
 		<servlet-name>Wallets</servlet-name>
 		<url-pattern>/choice</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>WalletsServlet</servlet-name>
+		<servlet-class>WalletsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>WalletsServlet</servlet-name>
+		<url-pattern>/wallets</url-pattern>
+	</servlet-mapping>
 
+
+
+	<servlet>
+		<servlet-name>TransactionServlet</servlet-name>
+		<servlet-class>TransactionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TransactionServlet</servlet-name>
+		<url-pattern>/wallet/transaction</url-pattern>
+	</servlet-mapping>
 	<servlet>
 		<servlet-name>TransactionUpdate</servlet-name>
 		<jsp-file>/views/transaction/UpdateTransaction.jsp</jsp-file>
@@ -90,7 +101,6 @@
 		<servlet-name>TransactionUpdate</servlet-name>
 		<url-pattern>/wallet/transaction/update</url-pattern>
 	</servlet-mapping>
-
 	<servlet>
 		<servlet-name>TransactionCreate</servlet-name>
 		<jsp-file>/views/transaction/CreateTransaction.jsp</jsp-file>
