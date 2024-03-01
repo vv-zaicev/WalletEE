@@ -176,15 +176,6 @@
 	padding: 0 5px;
 }
 
-.icon {
-	width: 30px;
-	height: 30px;
-	transition-duration: 0.3s;
-}
-
-.icon:hover {
-	transform: scale(1.1);
-}
 
 .show {
 	transition-duration: 0.3s;

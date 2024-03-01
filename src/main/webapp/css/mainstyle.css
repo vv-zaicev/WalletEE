@@ -91,21 +91,25 @@ body {
 	font-family: 'DM Sans', sans-serif;
 	background-color: #363F46;
 	font-size: 20px;
+	@media (max-width:	720px){
+		font-size: 30px;
+	}
 }
-
 .wrapper {
 	max-width: 1280px;
 	overflow: hidden;
 	min-height: 100%;
 	margin: 0 auto;
 	padding: 0 5px;
+	display: flex;
 }
 
 .container {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	height: 100%;
+	min-height: 100%;
+	min-width: 100%;
 }
 
 .container .row {
@@ -120,10 +124,6 @@ body {
 	height: 200px;
 	width: 300px;
 	margin: 0;
-}
-
-.wallets {
-	width: 300px;
 }
 
 input[type="date"] {
@@ -213,16 +213,6 @@ select {
 	color: #FFF;
 }
 
-.wallets p {
-	display: block;
-	text-align: center;
-	max-width: 300px;
-	text-align: center;
-	font-weight: 700;
-	margin: 10px 0 10px;
-	color: #FFF;
-}
-
 .button {
 	display: block;
 	text-align: center;
@@ -230,12 +220,21 @@ select {
 	min-width: 200px;
 	height: 35px;
 	line-height: 30px;
-	margin: 5px auto 5px;
 	background: #118DA8;
 	font-weight: 400;
 	color: #FFF;
 	border: 0;
 	border-radius: 6px;
-	margin: 5px auto 5px;
+	margin: 5px auto;
 	font-size: 20px;
+}
+
+.icon {
+	width: 30px;
+	height: 30px;
+	transition-duration: 0.3s;
+}
+
+.icon:hover {
+	transform: scale(1.1);
 }
