@@ -68,7 +68,7 @@
 
 	<servlet>
 		<servlet-name>Wallets</servlet-name>
-		<jsp-file>/views/Wallets.jsp</jsp-file>
+		<jsp-file>/views/wallets/Wallets.jsp</jsp-file>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Wallets</servlet-name>
@@ -81,6 +81,22 @@
 	<servlet-mapping>
 		<servlet-name>WalletsServlet</servlet-name>
 		<url-pattern>/wallets</url-pattern>
+	</servlet-mapping>
+		<servlet>
+		<servlet-name>WalletUpdate</servlet-name>
+		<jsp-file>/views/wallets/UpdateWallet.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>WalletUpdate</servlet-name>
+		<url-pattern>/wallets/update</url-pattern>
+	</servlet-mapping>
+		<servlet>
+		<servlet-name>WalletCreate</servlet-name>
+		<jsp-file>/views/wallets/CreateWallet.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>WalletCreate</servlet-name>
+		<url-pattern>/wallets/create</url-pattern>
 	</servlet-mapping>
 
 

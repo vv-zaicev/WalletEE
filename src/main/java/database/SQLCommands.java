@@ -21,4 +21,9 @@ public class SQLCommands {
     public static final String UPDATE_TRANSACTION = "UPDATE Transactions SET Description = ?, Sum = ?, Date = ?, TransactionTypeId = ?, TransactionCategoryId = ? WHERE Id = ?";
     public static final String DELETE_TRANSACTION = "DELETE FROM Transactions WHERE Id = ?";
 
+    public static final String DELETE_WALLET = "DELETE FROM Wallets WHERE Id = ?";
+    public static final String DELETE_WALLET_TRANSACTIONS = "DELETE FROM Transactions WHERE WalletId = ?";
+    public static final String INSERT_WALLET = "INSERT INTO Wallets(WalletName, Balance) VALUES(?, ?)";
+    public static final String UPDATE_WALLET = "UPDATE Wallets SET WalletName = ?, Balance = ? WHERE Id = ?";
+
 }

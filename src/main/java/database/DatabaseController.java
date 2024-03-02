@@ -197,9 +197,61 @@ public class DatabaseController implements AutoCloseable {
 	    connection.setAutoCommit(false);
 
 	    changeBalance(walletId, transaction.sum(), !(transaction.type() == TransactionType.INCOME));
-	    PreparedStatement updateTransactionsStatement = connection.prepareStatement(SQLCommands.DELETE_TRANSACTION);
-	    updateTransactionsStatement.setInt(1, transaction.id());
-	    updateTransactionsStatement.executeUpdate();
+	    PreparedStatement deleteTransactionsStatement = connection.prepareStatement(SQLCommands.DELETE_TRANSACTION);
+	    deleteTransactionsStatement.setInt(1, transaction.id());
+	    deleteTransactionsStatement.executeUpdate();
+
+	    connection.commit();
+	    return true;
+	} catch (SQLException e) {
+	    try {
+		connection.rollback();
+	    } catch (SQLException e1) {
+		e1.printStackTrace();
+	    }
+	    e.printStackTrace();
+	    return false;
+	}
+    }
+
+    public boolean updateWallet(Wallet wallet, String newName, BigDecimal newBalance) {
+	try {
+	    PreparedStatement updateWalletStatement = connection.prepareStatement(SQLCommands.UPDATE_WALLET);
+	    updateWalletStatement.setString(1, newName);
+	    updateWalletStatement.setBigDecimal(2, newBalance);
+	    updateWalletStatement.setInt(3, wallet.getId());
+	    updateWalletStatement.executeUpdate();
+	    return true;
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	    return false;
+	}
+
+    }
+
+    public boolean createWallet(String name, BigDecimal balance) {
+	try {
+	    PreparedStatement createWalletStatement = connection.prepareStatement(SQLCommands.INSERT_WALLET);
+	    createWalletStatement.setString(1, name);
+	    createWalletStatement.setBigDecimal(2, balance);
+	    createWalletStatement.executeUpdate();
+	    return true;
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	    return false;
+	}
+    }
+
+    public boolean removeWallet(Wallet wallet) {
+	try {
+	    connection.setAutoCommit(false);
+
+	    PreparedStatement deleteWalletStatement = connection.prepareStatement(SQLCommands.DELETE_WALLET);
+	    PreparedStatement deleteWalletTransactionsStatement = connection.prepareStatement(SQLCommands.DELETE_WALLET_TRANSACTIONS);
+	    deleteWalletTransactionsStatement.setInt(1, wallet.getId());
+	    deleteWalletTransactionsStatement.executeUpdate();
+	    deleteWalletStatement.setInt(1, wallet.getId());
+	    deleteWalletStatement.executeUpdate();
 
 	    connection.commit();
 	    return true;
